@@ -7,8 +7,10 @@ const config: StorybookConfig = {
     name: "@storybook/react-vite",
     options: {},
   },
-  staticDirs: [
-    { from: "../src/fonts", to: "fonts" }, // Copy font files to /fonts/ directory
-  ],
+  viteFinal: async (config) => {
+    // Ensure Vite can resolve font files
+    config.assetsInclude = ["**/*.woff2"];
+    return config;
+  },
 };
 export default config;
