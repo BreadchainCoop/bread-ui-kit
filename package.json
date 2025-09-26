@@ -25,6 +25,7 @@
   ],
   "scripts": {
     "build": "tsup && npm run copy-files",
+    "build:all": "npm run build && npm run build-storybook",
     "copy-files": "cp tailwind-preset.js dist/ && cp theme.css dist/ && cp -r src/fonts dist/",
     "dev": "tsup --watch",
     "storybook": "storybook dev -p 6006",

@@ -7,5 +7,6 @@ const config: StorybookConfig = {
     name: "@storybook/react-vite",
     options: {},
   },
+  staticDirs: ["../src/fonts"], // Copy font files to Storybook build
 };
 export default config;
