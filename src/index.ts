@@ -1,3 +1,6 @@
+// Note: CSS is provided separately via theme.css and tailwind-preset.js
+// Consumers can choose their preferred integration method
+
 export { default as LiftedButton } from "./components/LiftedButton/LiftedButton";
 export type { LiftedButtonProps } from "./components/LiftedButton/LiftedButton";
 
@@ -13,6 +16,3 @@ export {
   Caption,
   fontVariables,
 } from "./components/typography/Typography";
-
-// Import styles so they get bundled
-import "./globals.css";

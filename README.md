@@ -52,7 +52,7 @@ module.exports = {
 
 ```tsx
 import React from "react";
-import { Button, Heading1, Typography } from "bread-ui-kit";
+import { LiftedButton, Heading1, Typography } from "bread-ui-kit";
 
 function App() {
   return (
@@ -91,7 +91,7 @@ function App() {
     <div>
       <Heading1>Brand Consistent Heading</Heading1>
       <Body>Consistent body text</Body>
-      <LiftedButton variant="primary">Click me</LiftedButton>
+      <LiftedButton preset="primary">Click me</LiftedButton>
       <div className="bg-primary-orange text-white p-4 rounded-md">
         Custom styled element
       </div>

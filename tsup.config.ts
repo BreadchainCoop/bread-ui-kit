@@ -5,10 +5,10 @@ export default defineConfig({
   format: ["cjs", "esm"],
   dts: true,
   splitting: false,
-  sourcemap: true,
+  sourcemap: false, // Disable sourcemaps to avoid deployment issues
   clean: true,
   external: ["react", "react-dom"],
   treeshake: true,
   minify: true,
-  css: true,
+  css: false, // Disable CSS processing in tsup
 });
