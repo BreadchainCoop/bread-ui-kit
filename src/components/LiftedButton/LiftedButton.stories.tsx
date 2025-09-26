@@ -37,7 +37,7 @@ const meta: Meta<typeof LiftedButton> = {
     // Preset selector (radio)
     preset: {
       control: { type: "radio" },
-      options: ["primary", "secondary", "destructive", "positive"],
+      options: ["primary", "secondary", "stroke"],
     },
 
     // Manual colors as individual color pickers (flattened for SB controls)
@@ -117,7 +117,7 @@ export const Showcase: Story = {
         },
         React.createElement(
           "h1",
-          { className: "text-h1 mb-6 text-center" },
+          { className: "text-h1 text-surface-ink mb-6 text-center" },
           "Lifted Buttons"
         ),
         React.createElement(
@@ -152,19 +152,10 @@ export const Showcase: Story = {
             LiftedButton,
             // @ts-expect-error - ignore because storybook
             {
-              rightIcon: React.createElement(Skull, { size: 22 }),
-              preset: "destructive",
+              rightIcon: React.createElement(SignOut, { size: 22 }),
+              preset: "stroke",
             },
-            "Destructive"
-          ),
-          React.createElement(
-            LiftedButton,
-            // @ts-expect-error - ignore because storybook
-            {
-              rightIcon: React.createElement(MagicWand, { size: 22 }),
-              preset: "positive",
-            },
-            "Positive"
+            "Stroke"
           )
         )
       )
