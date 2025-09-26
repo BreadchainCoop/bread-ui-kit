@@ -16,7 +16,7 @@ Perfect for projects that want to use pre-built components without configuration
 
 ```tsx
 import React from "react";
-import { Button, Heading1, Body } from "bread-ui-kit";
+import { LiftedButton, Heading1, Body } from "bread-ui-kit";
 // Import the complete theme CSS
 import "bread-ui-kit/theme";
 
@@ -25,13 +25,9 @@ function App() {
     <div>
       <Heading1>Welcome to Bread Coop</Heading1>
       <Body>This text uses our brand typography.</Body>
-      <Button
-        variant="primary"
-        size="medium"
-        onClick={() => console.log("Clicked!")}
-      >
+      <LiftedButton preset="primary" onClick={() => console.log("Clicked!")}>
         Click me
-      </Button>
+      </LiftedButton>
     </div>
   );
 }
@@ -66,7 +62,7 @@ function App() {
       <Typography variant="body">Consistent body text</Typography>
 
       {/* Use pre-built button components */}
-      <Button variant="primary">Click me</Button>
+      <LiftedButton preset="primary">Click me</LiftedButton>
 
       {/* Or use Tailwind utilities with your design tokens */}
       <div className="bg-primary-orange text-white p-4 rounded-md">
@@ -87,7 +83,7 @@ function App() {
 
 ```tsx
 import React from "react";
-import { Button, Heading1, Body } from "bread-ui-kit";
+import { LiftedButton, Heading1, Body } from "bread-ui-kit";
 import "./globals.css";
 
 function App() {
@@ -95,7 +91,7 @@ function App() {
     <div>
       <Heading1>Brand Consistent Heading</Heading1>
       <Body>Consistent body text</Body>
-      <Button variant="primary">Click me</Button>
+      <LiftedButton variant="primary">Click me</LiftedButton>
       <div className="bg-primary-orange text-white p-4 rounded-md">
         Custom styled element
       </div>
@@ -168,41 +164,74 @@ import { Heading1, Heading2, Heading3, Body, Caption } from "bread-ui-kit";
 | Heading1-3, Body, Caption | `children: React.ReactNode`                                            | Content to display     |
 | Heading1-3, Body, Caption | `className?: string`                                                   | Additional CSS classes |
 
-### Button
+### LiftedButton
 
-A customizable button component with multiple variants and sizes.
+A unique button component with a "lifted" design that creates a 3D effect with a shadow layer. The button floats above a dark base and depresses when clicked.
 
 #### Props
 
-| Prop      | Type                                  | Default   | Description                    |
-| --------- | ------------------------------------- | --------- | ------------------------------ |
-| children  | React.ReactNode                       | -         | The content of the button      |
-| variant   | 'primary' \| 'secondary' \| 'outline' | 'primary' | The variant of the button      |
-| size      | 'small' \| 'medium' \| 'large'        | 'medium'  | The size of the button         |
-| disabled  | boolean                               | false     | Whether the button is disabled |
-| onClick   | () => void                            | -         | Click handler                  |
-| className | string                                | ''        | Additional CSS classes         |
-| type      | 'button' \| 'submit' \| 'reset'       | 'button'  | Button type                    |
+| Prop           | Type                                                                | Default   | Description                         |
+| -------------- | ------------------------------------------------------------------- | --------- | ----------------------------------- |
+| children       | React.ReactNode                                                     | -         | The content of the button           |
+| preset         | 'primary' \| 'secondary' \| 'destructive' \| 'positive' \| 'stroke' | 'primary' | The preset style of the button      |
+| leftIcon       | React.ReactNode                                                     | -         | Icon to display on the left side    |
+| rightIcon      | React.ReactNode                                                     | -         | Icon to display on the right side   |
+| disabled       | boolean                                                             | false     | Whether the button is disabled      |
+| colorOverrides | Partial<LiftedButtonColors>                                         | {}        | Override specific colors            |
+| offsetPx       | number                                                              | 4         | Pixel offset for the lifted effect  |
+| durationMs     | number                                                              | 300       | Transition duration in milliseconds |
+| width          | 'full' \| 'auto' \| 'mobile-full'                                   | 'auto'    | Button width behavior               |
+| scrollTo       | string                                                              | -         | Element ID to scroll to on click    |
+| className      | string                                                              | ''        | Additional CSS classes              |
+| type           | 'button' \| 'submit' \| 'reset'                                     | 'button'  | Button type                         |
+| onClick        | () => void                                                          | -         | Click handler                       |
+
+#### Presets
+
+- **primary**: Orange background with white text
+- **secondary**: Light orange background with orange text
+- **destructive**: Red background with white text
+- **positive**: Green background with white text
+- **stroke**: White background with dark text and border
 
 #### Examples
 
 ```tsx
-// Primary button
-<Button variant="primary">Primary Button</Button>
+import { LiftedButton } from "bread-ui-kit";
+import { ArrowUpRight, SignOut } from "@phosphor-icons/react";
 
-// Secondary button
-<Button variant="secondary">Secondary Button</Button>
+// Basic usage
+<LiftedButton>Click me</LiftedButton>
 
-// Outline button
-<Button variant="outline">Outline Button</Button>
+// With presets
+<LiftedButton preset="primary">Primary Button</LiftedButton>
+<LiftedButton preset="secondary">Secondary Button</LiftedButton>
+<LiftedButton preset="destructive">Delete</LiftedButton>
+<LiftedButton preset="positive">Save</LiftedButton>
+<LiftedButton preset="stroke">Cancel</LiftedButton>
 
-// Different sizes
-<Button size="small">Small</Button>
-<Button size="medium">Medium</Button>
-<Button size="large">Large</Button>
+// With icons
+<LiftedButton leftIcon={<ArrowUpRight />}>External Link</LiftedButton>
+<LiftedButton rightIcon={<SignOut />}>Sign Out</LiftedButton>
 
-// Disabled button
-<Button disabled>Disabled Button</Button>
+// Full width
+<LiftedButton width="full">Full Width Button</LiftedButton>
+
+// Mobile full width (full on mobile, auto on desktop)
+<LiftedButton width="mobile-full">Responsive Button</LiftedButton>
+
+// Custom offset and duration
+<LiftedButton offsetPx={8} durationMs={500}>
+  Custom Animation
+</LiftedButton>
+
+// Scroll to element
+<LiftedButton scrollTo="contact-section">
+  Contact Us
+</LiftedButton>
+
+// Disabled state
+<LiftedButton disabled>Disabled Button</LiftedButton>
 ```
 
 ## Development
