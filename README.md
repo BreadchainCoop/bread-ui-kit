@@ -5,20 +5,20 @@ A React TypeScript component library for implementing Bread Coop branding in JS/
 ## Installation
 
 ```bash
-npm install bread-ui-kit
+npm install @breadcoop/ui
 ```
 
 ## Usage Options
 
 ### Option 1: Drop-in CSS Theme (Simplest)
 
-Perfect for projects that want to use pre-built components without configuration. **Fonts are included automatically!**
+Perfect for projects that want to use pre-built components without configuration.
 
 ```tsx
 import React from "react";
-import { LiftedButton, Heading1, Body } from "bread-ui-kit";
+import { LiftedButton, Heading1, Body } from "@breadcoop/ui";
 // Import the complete theme CSS
-import "bread-ui-kit/theme";
+import "@breadcoop/ui/theme";
 
 function App() {
   return (
@@ -33,6 +33,21 @@ function App() {
 }
 ```
 
+**For custom fonts (optional):**
+
+```tsx
+// Import fonts separately if you want the custom Bread Coop fonts
+import "@breadcoop/ui/fonts";
+```
+
+**Note**: If you're using this in a project that already has Tailwind CSS, you might need to import the theme in your main CSS file instead:
+
+```css
+/* In your main CSS file (e.g., globals.css, index.css) */
+@import "@breadcoop/ui/theme";
+@import "@breadcoop/ui/fonts"; /* Optional: for custom fonts */
+```
+
 ### Option 2: Tailwind Preset (Maximum Flexibility)
 
 For projects that want full Tailwind integration with custom utilities and your design tokens.
@@ -42,17 +57,17 @@ For projects that want full Tailwind integration with custom utilities and your 
 ```js
 // tailwind.config.js
 module.exports = {
-  presets: [require("bread-ui-kit/tailwind-preset")],
+  presets: [require("@breadcoop/ui/tailwind-preset")],
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/bread-ui-kit/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@breadcoop/ui/dist/**/*.{js,ts,jsx,tsx}",
   ],
 };
 ```
 
 ```tsx
 import React from "react";
-import { LiftedButton, Heading1, Typography } from "bread-ui-kit";
+import { LiftedButton, Heading1, Typography } from "@breadcoop/ui";
 
 function App() {
   return (
@@ -78,12 +93,12 @@ function App() {
 ```css
 /* globals.css */
 @import "tailwindcss";
-@import "bread-ui-kit/tailwind-preset";
+@import "@breadcoop/ui/tailwind-preset";
 ```
 
 ```tsx
 import React from "react";
-import { LiftedButton, Heading1, Body } from "bread-ui-kit";
+import { LiftedButton, Heading1, Body } from "@breadcoop/ui";
 import "./globals.css";
 
 function App() {
@@ -197,7 +212,7 @@ A unique button component with a "lifted" design that creates a 3D effect with a
 #### Examples
 
 ```tsx
-import { LiftedButton } from "bread-ui-kit";
+import { LiftedButton } from "@breadcoop/ui";
 import { ArrowUpRight, SignOut } from "@phosphor-icons/react";
 
 // Basic usage
@@ -233,6 +248,39 @@ import { ArrowUpRight, SignOut } from "@phosphor-icons/react";
 // Disabled state
 <LiftedButton disabled>Disabled Button</LiftedButton>
 ```
+
+## Troubleshooting
+
+### Theme Not Loading
+
+If the theme styles aren't appearing:
+
+1. **Check import path**: Make sure you're importing from `@breadcoop/ui/theme`
+2. **CSS import order**: Import the theme before your component styles
+3. **Build tool compatibility**: Some bundlers require CSS imports in CSS files rather than JS files
+
+**Try this approach:**
+
+```css
+/* In your main CSS file */
+@import "@breadcoop/ui/theme";
+```
+
+### Fonts Not Loading
+
+If fonts aren't displaying:
+
+1. **Check network tab**: Look for 404 errors on font files
+2. **Verify font paths**: The theme.css should be in `node_modules/@breadcoop/ui/dist/theme.css`
+3. **Clear cache**: Try clearing your browser cache and node_modules
+
+### Components Not Styled
+
+If components render but without styles:
+
+1. **Import theme**: Make sure you've imported `@breadcoop/ui/theme`
+2. **Check CSS specificity**: Your custom styles might be overriding the theme
+3. **Verify Tailwind**: If using Tailwind preset, ensure Tailwind is properly configured
 
 ## Development
 

@@ -1,6 +1,6 @@
 {
-  "name": "bread-ui-kit",
-  "version": "1.0.0",
+  "name": "@breadcoop/ui",
+  "version": "1.0.3",
   "description": "A component library for implementing Bread Coop branding in JS/TS projects",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -12,9 +12,9 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./style": "./dist/index.css",
     "./tailwind-preset": "./tailwind-preset.js",
-    "./theme": "./theme.css",
+    "./theme": "./dist/theme.css",
+    "./fonts": "./dist/fonts.css",
     "./package.json": "./package.json"
   },
   "files": [
@@ -45,7 +45,7 @@
     "coop"
   ],
   "author": "Bread Coop",
-  "license": "MIT",
+  "license": "P2P",
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
