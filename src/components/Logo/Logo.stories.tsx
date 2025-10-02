@@ -19,7 +19,7 @@ const meta: Meta<typeof Logo> = {
     },
     color: {
       control: { type: "radio" },
-      options: ["orange", "blue", "jade"],
+      options: [undefined, "orange", "blue", "jade", "white"],
       description: "Color variant of the logo",
     },
     variant: {
@@ -92,6 +92,16 @@ export const Colors: Story = {
           { className: "text-sm text-gray-600" },
           "Jade"
         )
+      ),
+      React.createElement(
+        "div",
+        { className: "flex flex-col items-center gap-2" },
+        React.createElement(Logo, { size: 32, color: "white" }),
+        React.createElement(
+          "span",
+          { className: "text-sm text-gray-600" },
+          "White"
+        )
       )
     ),
 };
@@ -148,6 +158,20 @@ export const SquareVariants: Story = {
           "span",
           { className: "text-sm text-gray-600" },
           "Jade Square"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "flex flex-col items-center gap-2" },
+        React.createElement(Logo, {
+          size: 32,
+          color: "white",
+          variant: "square",
+        }),
+        React.createElement(
+          "span",
+          { className: "text-sm text-gray-600" },
+          "White Square"
         )
       )
     ),
@@ -257,6 +281,20 @@ export const LineVariant: Story = {
           "span",
           { className: "text-sm text-gray-600" },
           "Jade Line"
+        )
+      ),
+      React.createElement(
+        "div",
+        { className: "flex flex-col items-center gap-2" },
+        React.createElement(Logo, {
+          size: 32,
+          color: "white",
+          variant: "line",
+        }),
+        React.createElement(
+          "span",
+          { className: "text-sm text-gray-600" },
+          "White Line"
         )
       )
     ),
@@ -394,6 +432,47 @@ export const AllVariants: Story = {
           "span",
           { className: "text-sm text-gray-600" },
           "Jade Line"
+        )
+      ),
+      // White
+      React.createElement(
+        "div",
+        { className: "flex flex-col items-center gap-2" },
+        React.createElement(Logo, { size: 32, color: "white" }),
+        React.createElement(
+          "span",
+          { className: "text-sm text-gray-600" },
+          "White"
+        )
+      ),
+      // White Square
+      React.createElement(
+        "div",
+        { className: "flex flex-col items-center gap-2" },
+        React.createElement(Logo, {
+          size: 32,
+          color: "white",
+          variant: "square",
+        }),
+        React.createElement(
+          "span",
+          { className: "text-sm text-gray-600" },
+          "White Square"
+        )
+      ),
+      // White Line
+      React.createElement(
+        "div",
+        { className: "flex flex-col items-center gap-2" },
+        React.createElement(Logo, {
+          size: 32,
+          color: "white",
+          variant: "line",
+        }),
+        React.createElement(
+          "span",
+          { className: "text-sm text-gray-600" },
+          "White Line"
         )
       )
     ),
