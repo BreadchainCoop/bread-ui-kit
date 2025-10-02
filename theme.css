@@ -78,6 +78,7 @@
   --color-system-warning: #ce7f00;
   --color-text-standard: #171414;
   --color-white: #ffffff;
+  --color-black: #000000;
 
   /* Custom Fonts */
   --font-roboto: var(--font-roboto);
