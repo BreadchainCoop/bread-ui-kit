@@ -7,6 +7,7 @@ import {
   LIFTED_BUTTON_PRESETS,
   colorsToStyleVars,
 } from "./LiftedButtonPresets";
+import { validateCSSVariables } from "../../utils/cssValidation";
 
 // Helper function to clone React element and add classes
 const cloneWithClasses = (
@@ -64,8 +65,12 @@ export default function LiftedButton({
   scrollTo,
   ...rest // Add extra props to apply to the button
 }: LiftedButtonProps) {
+  // Validate CSS variables in development
+  React.useEffect(() => {
+    validateCSSVariables();
+  }, []);
+
   // Turn out inputs into CSS variables for use with tailwind.
-  // More bloody boilerplate really.
   const base = LIFTED_BUTTON_PRESETS[preset];
   const mergedColors: LiftedButtonColors = { ...base, ...colorOverrides };
   const styleVars: React.CSSProperties = {
@@ -75,30 +80,39 @@ export default function LiftedButton({
   };
 
   const baseClassNames = [
-    "relative z-10 inline-flex items-center justify-center gap-[8px]",
-    "text-body text-[16px]",
-    "px-[32px] h-14",
-    disabled ? "cursor-not-allowed" : "cursor-pointer",
+    "lifted-button-base",
     width === "full" ? "w-full" : "",
     width === "mobile-full" ? "w-full xl:w-auto" : "",
   ];
 
+  const getPresetClass = (preset: LiftedButtonPreset) => {
+    switch (preset) {
+      case "primary":
+        return "lifted-button-primary";
+      case "secondary":
+        return "lifted-button-secondary";
+      case "destructive":
+        return "lifted-button-destructive";
+      case "positive":
+        return "lifted-button-positive";
+      case "stroke":
+        return "lifted-button-stroke";
+      default:
+        return "lifted-button-primary";
+    }
+  };
+
   const activeClassNames = [
-    // idle colours
-    "bg-[var(--btn-bg)] text-[var(--btn-text)]",
-    // hover colours
-    "group-hover:bg-[var(--btn-hover-bg)] group-hover:text-[var(--btn-hover-text)]",
-    // active (returns to idle colours)
-    "group-active:bg-[var(--btn-bg)] group-active:text-[var(--btn-text)]",
+    getPresetClass(preset),
     // motion
-    "transition-all duration-[var(--btn-duration)] ease-out",
+    "lifted-button-motion",
     // lifted offset
-    "-translate-x-[var(--btn-offset)] -translate-y-[var(--btn-offset)]",
+    "lifted-button-lifted",
     // depress to base on active
-    "group-active:translate-x-0 group-active:translate-y-0",
+    "lifted-button-active",
   ];
 
-  const disabledClassNames = ["bg-[var(--color-surface-grey)]  opacity-50"];
+  const disabledClassNames = ["lifted-button-disabled"];
 
   const classNames = baseClassNames.concat(
     disabled ? disabledClassNames : activeClassNames
@@ -134,7 +148,13 @@ export default function LiftedButton({
     >
       {/* Background layer */}
       {disabled ? null : (
-        <span aria-hidden className="absolute inset-0 bg-[var(--btn-shadow)]" />
+        <span
+          aria-hidden
+          className="lifted-button-shadow"
+          style={{
+            transform: `translateX(2px) translateY(2px)`,
+          }}
+        />
       )}
 
       {/* Main button */}

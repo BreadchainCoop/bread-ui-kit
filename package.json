@@ -1,11 +1,11 @@
 {
   "name": "@breadcoop/ui",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "A component library for implementing Bread Coop branding in JS/TS projects",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "style": "dist/index.css",
+  "style": "dist/theme.css",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

@@ -52,16 +52,46 @@ export const LIFTED_BUTTON_PRESETS = {
 /* Converts the LiftedButtonColors object into CSS properties that tailwind can work with */
 export function colorsToStyleVars(c: LiftedButtonColors): React.CSSProperties {
   return {
-    ["--btn-bg" as string]: asCssValue(c.bg),
-    ["--btn-text" as string]: asCssValue(c.text),
-    ["--btn-hover-bg" as string]: asCssValue(c.hoverBg),
-    ["--btn-hover-text" as string]: asCssValue(c.hoverText),
-    ["--btn-shadow" as string]: asCssValue(c.shadowBg),
+    ["--btn-bg" as string]: asCssValueWithFallback(c.bg),
+    ["--btn-text" as string]: asCssValueWithFallback(c.text),
+    ["--btn-hover-bg" as string]: asCssValueWithFallback(c.hoverBg),
+    ["--btn-hover-text" as string]: asCssValueWithFallback(c.hoverText),
+    ["--btn-shadow" as string]: asCssValueWithFallback(c.shadowBg),
   };
 }
 
 /* Looks for CSS variables and wraps them with var() if found */
 function asCssValue(v: string): string {
   if (!v) return "";
-  return v.startsWith("--") ? `var(${v})` : v;
+  // If it already contains var() with fallback, return as-is
+  if (v.includes("var(")) return v;
+  // If it starts with --, wrap with var()
+  if (v.startsWith("--")) return `var(${v})`;
+  // Otherwise return the value directly
+  return v;
+}
+
+/* Maps CSS variables to their fallback values */
+const CSS_VAR_FALLBACKS: Record<string, string> = {
+  "--color-primary-orange": "#ea6023",
+  "--color-paper-main": "#f6f3eb",
+  "--color-surface-ink": "#1b201a",
+  "--color-system-red": "#df0b00",
+  "--color-system-green": "#32a800",
+  "--color-orange-1": "#d14a0f",
+  "--color-paper-2": "#eae2d6",
+};
+
+/* Looks for CSS variables and wraps them with var() and fallback if found */
+function asCssValueWithFallback(v: string): string {
+  if (!v) return "";
+  // If it already contains var() with fallback, return as-is
+  if (v.includes("var(")) return v;
+  // If it starts with --, wrap with var() and add fallback
+  if (v.startsWith("--")) {
+    const fallback = CSS_VAR_FALLBACKS[v] || "#000000";
+    return `var(${v}, ${fallback})`;
+  }
+  // Otherwise return the value directly
+  return v;
 }

@@ -160,6 +160,64 @@
   .bread-button-enabled {
     @apply cursor-pointer;
   }
+
+  /* LiftedButton Components */
+  .lifted-button-base {
+    @apply mb-1 relative z-10 inline-flex items-center justify-center gap-[8px] font-breadBody text-base px-[37px] h-14 cursor-pointer;
+  }
+
+  .lifted-button-primary {
+    @apply bg-primary-orange text-paper-main group-hover:bg-orange-1 group-hover:text-white;
+  }
+
+  .lifted-button-secondary {
+    @apply text-primary-orange group-hover:text-primary-orange;
+    background-color: #fbded1;
+  }
+
+  .lifted-button-secondary:hover {
+    background-color: #fff1ea;
+  }
+
+  .lifted-button-destructive {
+    @apply bg-system-red text-paper-main group-hover:text-white;
+  }
+
+  .lifted-button-destructive:hover {
+    background-color: #bf0a00;
+  }
+
+  .lifted-button-positive {
+    @apply bg-system-green text-paper-main group-hover:text-white;
+  }
+
+  .lifted-button-positive:hover {
+    background-color: #2b8f00;
+  }
+
+  .lifted-button-stroke {
+    @apply bg-paper-main text-surface-ink border border-surface-ink group-hover:bg-paper-2 group-hover:text-surface-ink;
+  }
+
+  .lifted-button-disabled {
+    @apply bg-surface-grey opacity-50 cursor-not-allowed;
+  }
+
+  .lifted-button-shadow {
+    @apply absolute mb-1 inset-0 bg-surface-grey-2;
+  }
+
+  .lifted-button-motion {
+    @apply transition-all ease-out;
+  }
+
+  .lifted-button-lifted {
+    @apply -translate-x-0.5 -translate-y-0.5;
+  }
+
+  .lifted-button-active {
+    @apply group-active:translate-x-0.5 group-active:translate-y-0.5;
+  }
 }
 
 body {

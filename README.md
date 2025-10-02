@@ -8,6 +8,25 @@ A React TypeScript component library for implementing Bread Coop branding in JS/
 npm install @breadcoop/ui
 ```
 
+## ⚠️ Important: CSS Import Required
+
+**Your components will not display correctly without importing the theme CSS!** Choose one of the integration methods below.
+
+### 🚨 Troubleshooting: Components Not Styling
+
+If your LiftedButton or other components appear unstyled:
+
+1. **Check browser console** - you should see a warning about missing CSS variables
+2. **Import the theme CSS** using one of the methods below
+3. **Ensure Tailwind is configured** if using the preset method
+4. **Clear build cache** and rebuild your project
+
+**Quick Fix:**
+```tsx
+// Add this import to your main component or CSS file
+import "@breadcoop/ui/theme";
+```
+
 ## Usage Options
 
 ### Option 1: Drop-in CSS Theme (Simplest)

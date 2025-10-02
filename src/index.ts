@@ -16,3 +16,7 @@ export {
   Caption,
   fontVariables,
 } from "./components/typography/Typography";
+
+// Logo component
+export { Logo } from "./components/Logo";
+export type { LogoProps, LogoColor, LogoVariant } from "./components/Logo";
