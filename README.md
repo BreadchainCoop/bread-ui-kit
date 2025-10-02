@@ -22,6 +22,7 @@ If your LiftedButton or other components appear unstyled:
 4. **Clear build cache** and rebuild your project
 
 **Quick Fix:**
+
 ```tsx
 // Add this import to your main component or CSS file
 import "@breadcoop/ui/theme";
@@ -301,6 +302,144 @@ If components render but without styles:
 2. **Check CSS specificity**: Your custom styles might be overriding the theme
 3. **Verify Tailwind**: If using Tailwind preset, ensure Tailwind is properly configured
 
+## Local Development & Usage
+
+### Setting Up for Local Development
+
+If you want to use this UI kit in your project during development or make custom modifications, you can set it up locally.
+
+#### Step 1: Clone the Repository
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd bread-ui-kit
+
+# Install dependencies
+npm install
+
+# Build the library
+npm run build
+```
+
+#### Step 2: Configure Your Project's package.json
+
+**Option A: Using file: protocol (Recommended)**
+
+Add a local reference to your project's `package.json`:
+
+```json
+{
+  "dependencies": {
+    "bread-ui-kit": "file:../bread-ui-kit"
+  }
+}
+```
+
+Then install:
+
+```bash
+npm install
+```
+
+**Option B: Using npm link**
+
+```bash
+# In the bread-ui-kit directory
+npm link
+
+# In your project directory
+npm link bread-ui-kit
+```
+
+**Option C: Direct path installation**
+
+```bash
+# In your project directory
+npm install /path/to/bread-ui-kit
+```
+
+#### Step 3: Import and Use in Your Project
+
+```tsx
+// Import components
+import { Logo, LiftedButton, Typography } from "bread-ui-kit";
+
+// Import the theme CSS
+import "bread-ui-kit/theme";
+
+function App() {
+  return (
+    <div>
+      <Logo text="Bread Coop" className="text-lg" color="blue" size={48} />
+
+      <LiftedButton preset="primary">Click me</LiftedButton>
+
+      <Typography variant="h1">Welcome to Bread Coop</Typography>
+    </div>
+  );
+}
+```
+
+### Development Workflow
+
+When making changes to the UI kit:
+
+1. **Make your changes** in the `src/` directory
+2. **Build the library**: `npm run build`
+3. **Test in your project** - changes should be reflected immediately if using `npm link`
+
+### Available Components
+
+#### Logo Component
+
+```tsx
+import { Logo } from 'bread-ui-kit';
+
+// Basic usage
+<Logo />
+
+// With text and custom styling
+<Logo
+  text="Bread Coop"
+  className="text-xl font-bold"
+  color="blue"
+  size={48}
+/>
+
+// Different variants
+<Logo variant="square" color="jade" />
+<Logo variant="line" color="white" />
+```
+
+**Logo Props:**
+
+- `size?: number` - Size in pixels (default: 32)
+- `color?: "orange" | "blue" | "jade" | "white"` - Color variant (default: "orange")
+- `variant?: "square" | "line"` - Logo variant
+- `text?: string` - Optional text to display next to the logo
+- `className?: string` - Additional CSS classes (applied to text when text prop is used)
+
+#### LiftedButton Component
+
+```tsx
+import { LiftedButton } from 'bread-ui-kit';
+
+<LiftedButton preset="primary">Click me</LiftedButton>
+<LiftedButton preset="secondary" disabled>Disabled</LiftedButton>
+<LiftedButton width="full">Full Width</LiftedButton>
+```
+
+#### Typography Components
+
+```tsx
+import { Typography, Heading1, Body } from 'bread-ui-kit';
+
+<Typography variant="h1">Main Heading</Typography>
+<Heading1>Direct Heading</Heading1>
+<Body>Body text content</Body>
+```
+
 ## Development
 
 ```bash
@@ -315,6 +454,9 @@ npm run lint
 
 # Run type checking
 npm run type-check
+
+# Run Storybook (for component development)
+npm run storybook
 ```
 
 ## License

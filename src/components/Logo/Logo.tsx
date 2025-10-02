@@ -277,7 +277,7 @@ export default function Logo({
       <div className="flex items-center gap-2">
         {renderLogo()}
         <span
-          className={`text-breadDisplay-bold ${
+          className={`text-breadDisplay-bold mt-1 ${
             effectiveColor === "white" ? "text-white" : "text-text-standard"
           }`}
         >
