@@ -77,6 +77,7 @@
   --color-system-red: #df0b00;
   --color-system-warning: #ce7f00;
   --color-text-standard: #171414;
+  --color-white: #ffffff;
 
   /* Custom Fonts */
   --font-roboto: var(--font-roboto);
@@ -112,10 +113,10 @@
   }
 
   .text-breadDisplay-bold {
-    @apply font-breadDisplay font-[700] text-base;
+    @apply font-breadDisplay font-[700];
   }
   .text-breadDisplay {
-    @apply font-breadDisplay font-[500] text-base;
+    @apply font-breadDisplay font-[500];
   }
   .text-body-bold {
     @apply font-breadBody text-base font-[700];
