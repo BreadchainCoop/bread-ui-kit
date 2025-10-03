@@ -54,7 +54,7 @@ export default function Logo({
       : effectiveColor === "jade"
       ? "var(--color-primary-jade)"
       : effectiveColor === "white"
-      ? "var(--color-text-standard)"
+      ? "var(--color-black)"
       : "var(--color-primary-orange)";
 
   // Render the SVG logo
