@@ -29,6 +29,8 @@ module.exports = {
         "system-red": "#df0b00",
         "system-warning": "#ce7f00",
         "text-standard": "#171414",
+        white: "#ffffff",
+        black: "#000000",
       },
       fontFamily: {
         breadDisplay: [
