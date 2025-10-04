@@ -1,119 +1,47 @@
 # Bread UI Kit
 
-A React TypeScript component library for implementing Bread Coop branding in JS/TS projects. Choose your integration approach based on your needs.
+A React TypeScript component library for implementing Bread Coop branding in JS/TS projects. Built for **Tailwind CSS v4**.
 
 ## Installation
 
 ```bash
-npm install @breadcoop/ui
+pnpm install @breadcoop/ui
 ```
 
-## ⚠️ Important: CSS Import Required
+### Preview
 
-**Your components will not display correctly without importing the theme CSS!** Choose one of the integration methods below.
+Preview available typography and components on the [Storybook Demo](http://breadcoopstorybook.netlify.app/).
 
-### 🚨 Troubleshooting: Components Not Styling
+### Quick Setup
 
-If your LiftedButton or other components appear unstyled:
+1. **Install Tailwind v4** in your project:
 
-1. **Check browser console** - you should see a warning about missing CSS variables
-2. **Import the theme CSS** using one of the methods below
-3. **Ensure Tailwind is configured** if using the preset method
-4. **Clear build cache** and rebuild your project
+   ```bash
+   npm install tailwindcss@next @tailwindcss/postcss@next
+   ```
 
-**Quick Fix:**
+2. **Import the theme** in your main CSS file:
 
-```tsx
-// Add this import to your main component or CSS file
-import "@breadcoop/ui/theme";
-```
+   ```css
+   /* globals.css or your main CSS file */
+   @import "tailwindcss";
+   @import "@breadcoop/ui/theme";
+   ```
 
-## Usage Options
+3. **Use components** in your React app:
+   ```tsx
+   import { LiftedButton, Heading1, Body } from "@breadcoop/ui";
+   import "./globals.css"; // Make sure to import your CSS file i.e. in layout.ts
+   ```
 
-### Option 1: Drop-in CSS Theme (Simplest)
+## Usage
 
-Perfect for projects that want to use pre-built components without configuration.
-
-```tsx
-import React from "react";
-import { LiftedButton, Heading1, Body } from "@breadcoop/ui";
-// Import the complete theme CSS
-import "@breadcoop/ui/theme";
-
-function App() {
-  return (
-    <div>
-      <Heading1>Welcome to Bread Coop</Heading1>
-      <Body>This text uses our brand typography.</Body>
-      <LiftedButton preset="primary" onClick={() => console.log("Clicked!")}>
-        Click me
-      </LiftedButton>
-    </div>
-  );
-}
-```
-
-**For custom fonts (optional):**
-
-```tsx
-// Import fonts separately if you want the custom Bread Coop fonts
-import "@breadcoop/ui/fonts";
-```
-
-**Note**: If you're using this in a project that already has Tailwind CSS, you might need to import the theme in your main CSS file instead:
-
-```css
-/* In your main CSS file (e.g., globals.css, index.css) */
-@import "@breadcoop/ui/theme";
-@import "@breadcoop/ui/fonts"; /* Optional: for custom fonts */
-```
-
-### Option 2: Tailwind Preset (Maximum Flexibility)
-
-For projects that want full Tailwind integration with custom utilities and your design tokens.
-
-#### Tailwind v3/v4 (Config-driven)
-
-```js
-// tailwind.config.js
-module.exports = {
-  presets: [require("@breadcoop/ui/tailwind-preset")],
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@breadcoop/ui/dist/**/*.{js,ts,jsx,tsx}",
-  ],
-};
-```
-
-```tsx
-import React from "react";
-import { LiftedButton, Heading1, Typography } from "@breadcoop/ui";
-
-function App() {
-  return (
-    <div>
-      {/* Use pre-built typography components */}
-      <Heading1>Brand Consistent Heading</Heading1>
-      <Typography variant="body">Consistent body text</Typography>
-
-      {/* Use pre-built button components */}
-      <LiftedButton preset="primary">Click me</LiftedButton>
-
-      {/* Or use Tailwind utilities with your design tokens */}
-      <div className="bg-primary-orange text-white p-4 rounded-md">
-        Custom styled element
-      </div>
-    </div>
-  );
-}
-```
-
-#### Tailwind v4 (Configless)
+### Basic Setup
 
 ```css
 /* globals.css */
 @import "tailwindcss";
-@import "@breadcoop/ui/tailwind-preset";
+@import "@breadcoop/ui/theme";
 ```
 
 ```tsx
@@ -124,9 +52,13 @@ import "./globals.css";
 function App() {
   return (
     <div>
-      <Heading1>Brand Consistent Heading</Heading1>
-      <Body>Consistent body text</Body>
-      <LiftedButton preset="primary">Click me</LiftedButton>
+      <Heading1>Welcome to Bread Coop</Heading1>
+      <Body>This text uses our brand typography.</Body>
+      <LiftedButton preset="primary" onClick={() => console.log("Clicked!")}>
+        Click me
+      </LiftedButton>
+
+      {/* Tailwind classes available in imported theme can be used */}
       <div className="bg-primary-orange text-white p-4 rounded-md">
         Custom styled element
       </div>
@@ -135,38 +67,9 @@ function App() {
 }
 ```
 
-## Design Tokens
-
-The Bread Coop design system includes comprehensive design tokens:
-
-### Colors
-
-- **Primary Orange**: `#ea6023` (primary-orange)
-- **Primary Jade**: `#286b63` (primary-jade)
-- **Primary Blue**: `#1c5bb9` (primary-blue)
-- **Paper Colors**: Light, warm paper tones (paper-main, paper-0, paper-1, paper-2)
-- **Surface Colors**: Dark, rich surface tones (surface-ink, surface-brown, etc.)
-- **System Colors**: Success (system-green), error (system-red), warning (system-warning)
-
-### Typography
-
-- **Bread Display**: Bold, impactful display font
-- **Bread Body**: Clean, readable body font
-- **Roboto**: Monospace font for code
-
-### Available Classes
-
-- **Text Styles**: `.text-h1`, `.text-h2`, `.text-h3`, `.text-h4`, `.text-h5`, `.text-body`
-- **Button Styles**: `.bread-button-primary`, `.bread-button-secondary`, `.bread-button-outline`
-- **Utility Classes**: All Tailwind utilities with your custom colors
-
 ## Components
 
 ### Typography
-
-Brand-consistent typography components that ensure proper font usage across your application. **Bread Coop fonts are automatically loaded when you import the theme!**
-
-#### Typography Component
 
 ```tsx
 import { Typography } from "bread-ui-kit";
@@ -225,8 +128,6 @@ A unique button component with a "lifted" design that creates a 3D effect with a
 
 - **primary**: Orange background with white text
 - **secondary**: Light orange background with orange text
-- **destructive**: Red background with white text
-- **positive**: Green background with white text
 - **stroke**: White background with dark text and border
 
 #### Examples
@@ -269,38 +170,34 @@ import { ArrowUpRight, SignOut } from "@phosphor-icons/react";
 <LiftedButton disabled>Disabled Button</LiftedButton>
 ```
 
-## Troubleshooting
+#### Logo Component
 
-### Theme Not Loading
+```tsx
+import { Logo } from 'bread-ui-kit';
 
-If the theme styles aren't appearing:
+// Basic usage
+<Logo />
 
-1. **Check import path**: Make sure you're importing from `@breadcoop/ui/theme`
-2. **CSS import order**: Import the theme before your component styles
-3. **Build tool compatibility**: Some bundlers require CSS imports in CSS files rather than JS files
+// With text and custom styling
+<Logo
+  text="Bread Coop"
+  className="text-xl font-bold"
+  color="blue"
+  size={48}
+/>
 
-**Try this approach:**
-
-```css
-/* In your main CSS file */
-@import "@breadcoop/ui/theme";
+// Different variants
+<Logo variant="square" color="jade" />
+<Logo variant="line" color="white" />
 ```
 
-### Fonts Not Loading
+**Logo Props:**
 
-If fonts aren't displaying:
-
-1. **Check network tab**: Look for 404 errors on font files
-2. **Verify font paths**: The theme.css should be in `node_modules/@breadcoop/ui/dist/theme.css`
-3. **Clear cache**: Try clearing your browser cache and node_modules
-
-### Components Not Styled
-
-If components render but without styles:
-
-1. **Import theme**: Make sure you've imported `@breadcoop/ui/theme`
-2. **Check CSS specificity**: Your custom styles might be overriding the theme
-3. **Verify Tailwind**: If using Tailwind preset, ensure Tailwind is properly configured
+- `size?: number` - Size in pixels (default: 32)
+- `color?: "orange" | "blue" | "jade" | "white"` - Color variant (default: "orange")
+- `variant?: "square" | "line"` - Logo variant
+- `text?: string` - Optional text to display next to the logo
+- `className?: string` - Additional CSS classes (applied to text when text prop is used)
 
 ## Local Development & Usage
 
@@ -339,46 +236,7 @@ Add a local reference to your project's `package.json`:
 Then install:
 
 ```bash
-npm install
-```
-
-**Option B: Using npm link**
-
-```bash
-# In the bread-ui-kit directory
-npm link
-
-# In your project directory
-npm link bread-ui-kit
-```
-
-**Option C: Direct path installation**
-
-```bash
-# In your project directory
-npm install /path/to/bread-ui-kit
-```
-
-#### Step 3: Import and Use in Your Project
-
-```tsx
-// Import components
-import { Logo, LiftedButton, Typography } from "bread-ui-kit";
-
-// Import the theme CSS
-import "bread-ui-kit/theme";
-
-function App() {
-  return (
-    <div>
-      <Logo text="Bread Coop" className="text-lg" color="blue" size={48} />
-
-      <LiftedButton preset="primary">Click me</LiftedButton>
-
-      <Typography variant="h1">Welcome to Bread Coop</Typography>
-    </div>
-  );
-}
+pnpm install
 ```
 
 ### Development Workflow
@@ -387,78 +245,4 @@ When making changes to the UI kit:
 
 1. **Make your changes** in the `src/` directory
 2. **Build the library**: `npm run build`
-3. **Test in your project** - changes should be reflected immediately if using `npm link`
-
-### Available Components
-
-#### Logo Component
-
-```tsx
-import { Logo } from 'bread-ui-kit';
-
-// Basic usage
-<Logo />
-
-// With text and custom styling
-<Logo
-  text="Bread Coop"
-  className="text-xl font-bold"
-  color="blue"
-  size={48}
-/>
-
-// Different variants
-<Logo variant="square" color="jade" />
-<Logo variant="line" color="white" />
-```
-
-**Logo Props:**
-
-- `size?: number` - Size in pixels (default: 32)
-- `color?: "orange" | "blue" | "jade" | "white"` - Color variant (default: "orange")
-- `variant?: "square" | "line"` - Logo variant
-- `text?: string` - Optional text to display next to the logo
-- `className?: string` - Additional CSS classes (applied to text when text prop is used)
-
-#### LiftedButton Component
-
-```tsx
-import { LiftedButton } from 'bread-ui-kit';
-
-<LiftedButton preset="primary">Click me</LiftedButton>
-<LiftedButton preset="secondary" disabled>Disabled</LiftedButton>
-<LiftedButton width="full">Full Width</LiftedButton>
-```
-
-#### Typography Components
-
-```tsx
-import { Typography, Heading1, Body } from 'bread-ui-kit';
-
-<Typography variant="h1">Main Heading</Typography>
-<Heading1>Direct Heading</Heading1>
-<Body>Body text content</Body>
-```
-
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Build the library
-npm run build
-
-# Run linting
-npm run lint
-
-# Run type checking
-npm run type-check
-
-# Run Storybook (for component development)
-npm run storybook
-```
-
-## License
-
-MIT
+3. **Test in your project** - `pnpm install`
