@@ -8,9 +8,9 @@ A React TypeScript component library for implementing Bread Coop branding in JS/
 pnpm install @breadcoop/ui
 ```
 
-### Preview
+## Preview
 
-Preview available typography and components on the [Storybook Demo](http://breadcoopstorybook.netlify.app/).
+Preview the available typography and components on the [Storybook Demo](http://breadcoopstorybook.netlify.app/).
 
 ### Quick Setup
 
@@ -89,18 +89,22 @@ import { Heading1, Heading2, Heading3, Body, Caption } from "bread-ui-kit";
 <Heading2>Section Heading</Heading2>
 <Heading3>Subsection Heading</Heading3>
 <Body>Body text content</Body>
+<Body bold>Bold body text content</Body>
 <Caption>Small caption text</Caption>
 ```
 
 #### Props
 
-| Component                 | Props                                                                  | Description            |
-| ------------------------- | ---------------------------------------------------------------------- | ---------------------- |
-| Typography                | `variant: "h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "body" \| "caption"` | Typography variant     |
-| Typography                | `children: React.ReactNode`                                            | Content to display     |
-| Typography                | `className?: string`                                                   | Additional CSS classes |
-| Heading1-3, Body, Caption | `children: React.ReactNode`                                            | Content to display     |
-| Heading1-3, Body, Caption | `className?: string`                                                   | Additional CSS classes |
+| Component           | Props                                                                  | Description                     |
+| ------------------- | ---------------------------------------------------------------------- | ------------------------------- |
+| Typography          | `variant: "h1" \| "h2" \| "h3" \| "h4" \| "h5" \| "body" \| "caption"` | Typography variant              |
+| Typography          | `children: React.ReactNode`                                            | Content to display              |
+| Typography          | `className?: string`                                                   | Additional CSS classes          |
+| Heading1-3, Caption | `children: React.ReactNode`                                            | Content to display              |
+| Heading1-3, Caption | `className?: string`                                                   | Additional CSS classes          |
+| Body                | `children: React.ReactNode`                                            | Content to display              |
+| Body                | `className?: string`                                                   | Additional CSS classes          |
+| Body                | `bold?: boolean`                                                       | Make text bold (default: false) |
 
 ### LiftedButton
 
