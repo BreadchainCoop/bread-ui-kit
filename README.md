@@ -202,13 +202,13 @@ import { Logo } from '@breadcoop/ui';
 
 #### Props
 
-| Prop      | Type                                      | Default  | Description                                                     |
-| --------- | ----------------------------------------- | -------- | --------------------------------------------------------------- |
-| size      | `number`                                  | 32       | Size in pixels                                                  |
-| color     | `"orange" \| "blue" \| "jade" \| "white"` | "orange" | Color variant                                                   |
-| variant   | `"square" \| "line"`                      | -        | Logo variant                                                    |
-| text      | `string`                                  | -        | Optional text to display next to the logo                       |
-| className | `string`                                  | -        | Additional CSS classes (applied to text when text prop is used) |
+| Prop      | Type                                      | Default  | Description                                     |
+| --------- | ----------------------------------------- | -------- | ----------------------------------------------- |
+| size      | `number`                                  | 32       | Size in pixels                                  |
+| color     | `"orange" \| "blue" \| "jade" \| "white"` | "orange" | Color variant                                   |
+| variant   | `"square" \| "line"`                      | -        | Logo variant                                    |
+| text      | `string`                                  | -        | Optional text to display next to the logo       |
+| className | `string`                                  | -        | Additional CSS classes (applied to svg element) |
 
 ## Local Development & Usage
 
