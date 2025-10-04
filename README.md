@@ -72,7 +72,7 @@ function App() {
 ### Typography
 
 ```tsx
-import { Typography } from "bread-ui-kit";
+import { Typography } from "@breadcoop/ui";
 
 <Typography variant="h1">Main Heading</Typography>
 <Typography variant="h2">Section Heading</Typography>
@@ -83,7 +83,7 @@ import { Typography } from "bread-ui-kit";
 #### Individual Typography Components
 
 ```tsx
-import { Heading1, Heading2, Heading3, Body, Caption } from "bread-ui-kit";
+import { Heading1, Heading2, Heading3, Body, Caption } from "@breadcoop/ui";
 
 <Heading1>Main Heading</Heading1>
 <Heading2>Section Heading</Heading2>
@@ -108,7 +108,14 @@ import { Heading1, Heading2, Heading3, Body, Caption } from "bread-ui-kit";
 
 ### LiftedButton
 
-A unique button component with a "lifted" design that creates a 3D effect with a shadow layer. The button floats above a dark base and depresses when clicked.
+```tsx
+import { LiftedButton } from "@breadcoop/ui";
+
+<Typography variant="h1">Main Heading</Typography>
+<Typography variant="h2">Section Heading</Typography>
+<Typography variant="body">Body text content</Typography>
+<Typography variant="caption">Small caption text</Typography>
+```
 
 #### Props
 
@@ -146,8 +153,6 @@ import { ArrowUpRight, SignOut } from "@phosphor-icons/react";
 // With presets
 <LiftedButton preset="primary">Primary Button</LiftedButton>
 <LiftedButton preset="secondary">Secondary Button</LiftedButton>
-<LiftedButton preset="destructive">Delete</LiftedButton>
-<LiftedButton preset="positive">Save</LiftedButton>
 <LiftedButton preset="stroke">Cancel</LiftedButton>
 
 // With icons
@@ -177,7 +182,7 @@ import { ArrowUpRight, SignOut } from "@phosphor-icons/react";
 #### Logo Component
 
 ```tsx
-import { Logo } from 'bread-ui-kit';
+import { Logo } from '@breadcoop/ui';
 
 // Basic usage
 <Logo />
@@ -195,13 +200,15 @@ import { Logo } from 'bread-ui-kit';
 <Logo variant="line" color="white" />
 ```
 
-**Logo Props:**
+#### Props
 
-- `size?: number` - Size in pixels (default: 32)
-- `color?: "orange" | "blue" | "jade" | "white"` - Color variant (default: "orange")
-- `variant?: "square" | "line"` - Logo variant
-- `text?: string` - Optional text to display next to the logo
-- `className?: string` - Additional CSS classes (applied to text when text prop is used)
+| Prop      | Type                                      | Default  | Description                                                     |
+| --------- | ----------------------------------------- | -------- | --------------------------------------------------------------- |
+| size      | `number`                                  | 32       | Size in pixels                                                  |
+| color     | `"orange" \| "blue" \| "jade" \| "white"` | "orange" | Color variant                                                   |
+| variant   | `"square" \| "line"`                      | -        | Logo variant                                                    |
+| text      | `string`                                  | -        | Optional text to display next to the logo                       |
+| className | `string`                                  | -        | Additional CSS classes (applied to text when text prop is used) |
 
 ## Local Development & Usage
 
