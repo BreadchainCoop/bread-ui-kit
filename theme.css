@@ -76,6 +76,9 @@
   --color-system-green: #32a800;
   --color-system-red: #df0b00;
   --color-system-warning: #ce7f00;
+  --color-red-0: #f7cac2;
+  --color-red-1: #f4b8ad;
+  --color-red-main: #df0b00;
   --color-text-standard: #171414;
   --color-white: #ffffff;
   --color-black: #000000;
@@ -168,37 +171,14 @@
     @apply mb-1 relative z-10 inline-flex items-center justify-center gap-[8px] font-breadBody text-base px-[37px] h-14 cursor-pointer;
   }
 
-  .lifted-button-primary {
-    @apply bg-primary-orange text-paper-main group-hover:bg-orange-1 group-hover:text-white;
+  .lifted-button {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
   }
 
-  .lifted-button-secondary {
-    @apply text-primary-orange group-hover:text-primary-orange;
-    background-color: #fbded1;
-  }
-
-  .lifted-button-secondary:hover {
-    background-color: #fff1ea;
-  }
-
-  .lifted-button-destructive {
-    @apply bg-system-red text-paper-main group-hover:text-white;
-  }
-
-  .lifted-button-destructive:hover {
-    background-color: #bf0a00;
-  }
-
-  .lifted-button-positive {
-    @apply bg-system-green text-paper-main group-hover:text-white;
-  }
-
-  .lifted-button-positive:hover {
-    background-color: #2b8f00;
-  }
-
-  .lifted-button-stroke {
-    @apply bg-paper-main text-surface-ink border border-surface-ink group-hover:bg-paper-2 group-hover:text-surface-ink;
+  .lifted-button:hover {
+    background-color: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
   }
 
   .lifted-button-disabled {

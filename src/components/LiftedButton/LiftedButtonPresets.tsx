@@ -47,6 +47,13 @@ export const LIFTED_BUTTON_PRESETS = {
     hoverText: "--color-surface-ink",
     shadowBg: "#595959",
   },
+  burn: {
+    bg: "--color-red-0",
+    text: "--color-red-main",
+    hoverBg: "--color-red-1",
+    hoverText: "--color-red-main",
+    shadowBg: "#595959",
+  },
 };
 
 /* Converts the LiftedButtonColors object into CSS properties that tailwind can work with */
@@ -80,6 +87,9 @@ const CSS_VAR_FALLBACKS: Record<string, string> = {
   "--color-system-green": "#32a800",
   "--color-orange-1": "#d14a0f",
   "--color-paper-2": "#eae2d6",
+  "--color-red-0": "#f7cac2",
+  "--color-red-1": "#f4b8ad",
+  "--color-red-main": "#df0b00",
 };
 
 /* Looks for CSS variables and wraps them with var() and fallback if found */

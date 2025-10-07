@@ -37,7 +37,7 @@ const meta: Meta<typeof LiftedButton> = {
     // Preset selector (radio)
     preset: {
       control: { type: "radio" },
-      options: ["primary", "secondary", "stroke"],
+      options: ["primary", "secondary", "stroke", "burn"],
     },
 
     // Manual colors as individual color pickers (flattened for SB controls)
@@ -156,6 +156,15 @@ export const Showcase: Story = {
               preset: "stroke",
             },
             "Stroke"
+          ),
+          React.createElement(
+            LiftedButton,
+            // @ts-expect-error - ignore because storybook
+            {
+              rightIcon: React.createElement(Skull, { size: 22 }),
+              preset: "burn",
+            },
+            "Burn"
           )
         )
       )

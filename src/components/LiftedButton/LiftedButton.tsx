@@ -85,25 +85,12 @@ export default function LiftedButton({
     width === "mobile-full" ? "w-full xl:w-auto" : "",
   ];
 
-  const getPresetClass = (preset: LiftedButtonPreset) => {
-    switch (preset) {
-      case "primary":
-        return "lifted-button-primary";
-      case "secondary":
-        return "lifted-button-secondary";
-      case "destructive":
-        return "lifted-button-destructive";
-      case "positive":
-        return "lifted-button-positive";
-      case "stroke":
-        return "lifted-button-stroke";
-      default:
-        return "lifted-button-primary";
-    }
+  const getPresetClass = () => {
+    return "lifted-button";
   };
 
   const activeClassNames = [
-    getPresetClass(preset),
+    getPresetClass(),
     // motion
     "lifted-button-motion",
     // lifted offset
