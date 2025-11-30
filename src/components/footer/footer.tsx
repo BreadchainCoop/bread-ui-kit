@@ -13,7 +13,6 @@ import { LINKS } from "../../constansts/links";
 import { Body } from "../typography/Typography";
 import { Logo } from "../Logo";
 import { SOLIDARITY_TOOLS } from "../../constansts/tools";
-import { ReactNode } from "react";
 
 function SocialIcons({ className = "" }: { className?: string }) {
 	return (
@@ -47,7 +46,7 @@ function SocialIcons({ className = "" }: { className?: string }) {
 					alt="Paragraph icon"
 					width={24}
 					height={24}
-					className="p-[3px] w-6 h-6 text-surface-ink"
+					className="p-0.75 w-6 h-6 text-surface-ink"
 				/>
 			</a>
 			<a href={LINKS.farcaster} className="block">
@@ -57,7 +56,7 @@ function SocialIcons({ className = "" }: { className?: string }) {
 					alt="Farcaser icon"
 					width={24}
 					height={24}
-					className="p-[3px] w-6 h-6 text-surface-ink"
+					className="p-0.75 w-6 h-6 text-surface-ink"
 				/>
 			</a>
 		</div>
@@ -99,33 +98,13 @@ function FooterLink({
 	);
 }
 
-function ExternalLink({
-	href,
-	children,
-}: {
-	href: string;
-	children: ReactNode;
-}) {
+export default function Footer({className}: {className?: string}) {
 	return (
-		<a
-			href={href}
-			target="_blank"
-			className="text-orange-0 hover:text-paper-0 font-breadBody"
-			rel="noopener noreferrer"
-		>
-			{children}
-		</a>
-	);
-}
-
-export default function Footer() {
-	return (
-		<footer className="bg-primary-orange px-4 py-12">
-			<div className="md:max-w-7xl mx-auto ">
-				{/* Top Row - Logo, Name, and Social Icons (Tablet Layout) */}
-				<div className="max-w-[318px] md:max-w-7xl mx-auto md:flex md:items-center md:justify-between md:mb-8 xl:hidden">
-					<div className="flex flex-col items-center md:items-start mb-4 md:mb-0">
-						<div className="flex uppercase text-[24px]  items-center gap-3 mb-2">
+		<footer className={`bg-primary-orange px-4 py-12 ${className}`}>
+			<div className="mb-8 max-w-79.5 mx-auto md:max-w-7xl xl:flex xl:gap-4">
+				<div className="md:flex md:items-center md:justify-between md:mb-8 xl:flex-col xl:w-full xl:max-w-max">
+					<div className="flex flex-col items-center md:items-start mb-4 md:mb-0 xl:mb-6">
+						<div className="flex uppercase text-2xl  items-center gap-3 mb-2">
 							<Logo
 								text="Bread Cooperative"
 								size={23}
@@ -136,33 +115,15 @@ export default function Footer() {
 							Solidarity forever.
 						</p>
 					</div>
-					<div className="justify-center md:justify-end">
-						<SocialIcons />
+
+					{/* Social Icons */}
+					<div className="mb-4 xl:w-full">
+						<SocialIcons className="xl:gap-4" />
 					</div>
 				</div>
-
-				<div className="max-w-[318px] md:max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 xl:grid-cols-6 gap-4 mb-8">
-					{/* Logo and Tagline (Desktop Layout) */}
-					<div className="hidden xl:block xl:col-span-2 xl:max-w-[311px]">
-						<div className="flex text-[24px] uppercase -mt-1 items-center gap-3 mb-2 justify-center md:justify-start">
-							<Logo
-								text="Bread Cooperative"
-								size={23}
-								color="white"
-							/>
-						</div>
-						<p className="text-white font-breadBody mb-6 text-center md:text-left">
-							Solidarity forever.
-						</p>
-
-						{/* Social Icons */}
-						<div className="mb-4">
-							<SocialIcons className="xl:gap-4" />
-						</div>
-					</div>
-
+				<div className="flex flex-col gap-4 md:flex-row md:justify-between xl:w-full xl:max-w-212 xl:ml-auto">
 					{/* Cooperative Column */}
-					<div>
+					<div className="w-full">
 						<Body className="text-lg text-white mb-4">
 							Cooperative
 						</Body>
@@ -186,7 +147,7 @@ export default function Footer() {
 					</div>
 
 					{/* Solidarity Tools Column */}
-					<div>
+					<div className="w-full">
 						<Body className="text-lg text-white mb-4">
 							Solidarity tools
 						</Body>
@@ -205,7 +166,7 @@ export default function Footer() {
 					</div>
 
 					{/* Reach Out Column */}
-					<div>
+					<div className="w-full">
 						<Body className="text-lg text-white mb-4">
 							Reach out
 						</Body>
@@ -226,7 +187,7 @@ export default function Footer() {
 					</div>
 
 					{/* Support Us Column */}
-					<div>
+					<div className="w-full">
 						<Body className="text-lg text-white mb-4">
 							Support us
 						</Body>
@@ -247,18 +208,17 @@ export default function Footer() {
 						</ul>
 					</div>
 				</div>
-
-				{/* Bottom Section */}
-				<div className="border-t border-orange-0 pt-6 flex flex-col justify-between items-center gap-4 md:flex-row">
+			</div>
+			<div className="border-t border-orange-0 pt-6 flex flex-col justify-between items-center gap-4 md:flex-row md:mx-auto md:max-w-7xl">
+				<Body className="text-white text-sm">
+					Creative Commons ©BREAD Cooperative
+				</Body>
+				<div className="flex items-center gap-4">
 					<Body className="text-white text-sm">
-						Creative Commons ©BREAD Cooperative
+						All Rights Reserved
 					</Body>
-					<div className="flex items-center gap-4">
-						<Body className="text-white text-sm">
-							All Rights Reserved
-						</Body>
-						{/* TODO: Add terms and conditions and privacy policy #10 */}
-						{/* <span className="text-white">|</span>
+					{/* TODO: Add terms and conditions and privacy policy #10 */}
+					{/* <span className="text-white">|</span>
 						<a
 							href="#"
 							className="text-orange-0 hover:text-paper-0 font-breadBody"
@@ -272,7 +232,6 @@ export default function Footer() {
 						>
 							Privacy Policy
 						</a> */}
-					</div>
 				</div>
 			</div>
 		</footer>
