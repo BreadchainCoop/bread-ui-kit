@@ -1,5 +1,3 @@
-import paragraphIcon from "./../../assets/paragraph.png";
-import farcasterIcon from "../../assets/farcaster-icon.png";
 import {
 	GithubLogoIcon,
 	LinkedinLogoIcon,
@@ -8,7 +6,7 @@ import {
 	XLogoIcon,
 	EnvelopeSimpleIcon,
 	ArrowUpRightIcon,
-} from "@phosphor-icons/react";
+} from "@phosphor-icons/react/dist/ssr";
 import { LINKS } from "../../constansts/links";
 import { Body } from "../typography/Typography";
 import { Logo } from "../Logo";
@@ -41,22 +39,22 @@ function SocialIcons({ className = "" }: { className?: string }) {
 			</a>
 			<a href={LINKS.newsletter} className="block">
 				<img
-					// src="/paragraph.png"
-					src={paragraphIcon}
+					src="/paragraph.png"
+					// src={paragraphIcon}
 					alt="Paragraph icon"
 					width={24}
 					height={24}
-					className="p-0.75 w-6 h-6 text-surface-ink"
+					className="p-0.75 w-5 h-5 text-surface-ink"
 				/>
 			</a>
 			<a href={LINKS.farcaster} className="block">
 				<img
-					// src="/farcaster-icon.png"
-					src={farcasterIcon}
+					src="/farcaster-icon.png"
+					// src={farcasterIcon}
 					alt="Farcaser icon"
 					width={24}
 					height={24}
-					className="p-0.75 w-6 h-6 text-surface-ink"
+					className="p-0.75 w-5 h-5 text-surface-ink"
 				/>
 			</a>
 		</div>
@@ -98,11 +96,20 @@ function FooterLink({
 	);
 }
 
-export default function Footer({className}: {className?: string}) {
+// TODO: Not sure of what's going on with some tailwind classes not been applied in the consumer app. Thes classes props are not needed when figured out
+export default function Footer({
+	className = "",
+	topClassName = "",
+	infoClassName = ""
+}: {
+	className?: string;
+	topClassName?: string;
+	infoClassName?: string;
+}) {
 	return (
 		<footer className={`bg-primary-orange px-4 py-12 ${className}`}>
-			<div className="mb-8 max-w-79.5 mx-auto md:max-w-7xl xl:flex xl:gap-4">
-				<div className="md:flex md:items-center md:justify-between md:mb-8 xl:flex-col xl:w-full xl:max-w-max">
+			<div className={`mb-8 max-w-79.5 mx-auto md:max-w-7xl xl:flex xl:gap-4 ${topClassName}`}>
+				<div className={`md:flex md:items-center md:justify-between md:mb-8 xl:flex-col xl:w-full xl:max-w-max ${infoClassName}`}>
 					<div className="flex flex-col items-center md:items-start mb-4 md:mb-0 xl:mb-6">
 						<div className="flex uppercase text-2xl  items-center gap-3 mb-2">
 							<Logo
