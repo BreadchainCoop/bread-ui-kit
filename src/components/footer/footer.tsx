@@ -61,16 +61,18 @@ function SocialIcons({ className = "" }: { className?: string }) {
 	);
 }
 
-// Reusable Footer Link Component
+interface FooterLinkProps extends Pick<FooterProps, "mode"> {
+	href: string;
+	children: React.ReactNode;
+	isExternal?: boolean;
+}
+
 function FooterLink({
 	href,
 	children,
 	isExternal = false,
-}: {
-	href: string;
-	children: React.ReactNode;
-	isExternal?: boolean;
-}) {
+	mode,
+}: FooterLinkProps) {
 	const isDisabled = !href || href.trim() === "";
 
 	if (isDisabled) {
@@ -86,7 +88,9 @@ function FooterLink({
 			href={href}
 			target={isExternal ? "_blank" : "_self"}
 			rel={isExternal ? "noopener noreferrer" : ""}
-			className="text-surface-ink hover:text-paper-0 font-breadBody flex items-center gap-2"
+			className={`font-breadBody flex items-center gap-2 ${
+				mode === "colored" ? "text-surface-ink hover:text-paper-0" : ""
+			}`}
 		>
 			{children}
 			{isExternal && (
@@ -96,29 +100,43 @@ function FooterLink({
 	);
 }
 
+interface FooterProps {
+	className?: string;
+	topClassName?: string;
+	infoClassName?: string;
+	mode?: "colored" | "transparent";
+}
+
 // TODO: Not sure of what's going on with some tailwind classes not been applied in the consumer app. Thes classes props are not needed when figured out
 export default function Footer({
 	className = "",
 	topClassName = "",
-	infoClassName = ""
-}: {
-	className?: string;
-	topClassName?: string;
-	infoClassName?: string;
-}) {
+	infoClassName = "",
+	mode = "colored",
+}: FooterProps) {
 	return (
-		<footer className={`bg-primary-orange px-4 py-12 ${className}`}>
-			<div className={`mb-8 max-w-79.5 mx-auto md:max-w-7xl xl:flex xl:gap-4 ${topClassName}`}>
-				<div className={`md:flex md:items-center md:justify-between md:mb-8 xl:flex-col xl:w-full xl:max-w-max ${infoClassName}`}>
+		<footer
+			className={`px-4 py-12 ${
+				mode === "colored"
+					? "bg-primary-orange text-white"
+					: "bg-transparent text-surface-ink"
+			} ${className}`}
+		>
+			<div
+				className={`mb-8 max-w-79.5 mx-auto md:max-w-7xl xl:flex xl:gap-4 ${topClassName}`}
+			>
+				<div
+					className={`md:flex md:items-center md:justify-between md:mb-8 xl:flex-col xl:w-full xl:max-w-max ${infoClassName}`}
+				>
 					<div className="flex flex-col items-center md:items-start mb-4 md:mb-0 xl:mb-6">
 						<div className="flex uppercase text-2xl  items-center gap-3 mb-2">
 							<Logo
 								text="Bread Cooperative"
 								size={23}
-								color="white"
+								color={mode === "colored" ? "white" : undefined}
 							/>
 						</div>
-						<p className="text-white font-breadBody text-center md:text-left">
+						<p className="font-breadBody text-center md:text-left">
 							Solidarity forever.
 						</p>
 					</div>
@@ -131,22 +149,29 @@ export default function Footer({
 				<div className="flex flex-col gap-4 md:flex-row md:justify-between xl:w-full xl:max-w-212 xl:ml-auto">
 					{/* Cooperative Column */}
 					<div className="w-full">
-						<Body className="text-lg text-white mb-4">
+						<Body
+							className={`text-lg mb-4 ${
+								mode === "transparent" ? "text-[#EA5817]" : ""
+							}`}
+						>
 							Cooperative
 						</Body>
 						<ul className="space-y-3">
 							<li>
-								<FooterLink href={LINKS.docs}>
+								<FooterLink mode={mode} href={LINKS.docs}>
 									Documentation
 								</FooterLink>
 							</li>
 							<li>
-								<FooterLink href={LINKS.newsletter}>
+								<FooterLink mode={mode} href={LINKS.newsletter}>
 									Blog
 								</FooterLink>
 							</li>
 							<li>
-								<FooterLink href={LINKS.contributorForm}>
+								<FooterLink
+									mode={mode}
+									href={LINKS.contributorForm}
+								>
 									Contribute
 								</FooterLink>
 							</li>
@@ -155,7 +180,11 @@ export default function Footer({
 
 					{/* Solidarity Tools Column */}
 					<div className="w-full">
-						<Body className="text-lg text-white mb-4">
+						<Body
+							className={`text-lg mb-4 ${
+								mode === "transparent" ? "text-[#EA5817]" : ""
+							}`}
+						>
 							Solidarity tools
 						</Body>
 						<ul className="space-y-3">
@@ -174,7 +203,11 @@ export default function Footer({
 
 					{/* Reach Out Column */}
 					<div className="w-full">
-						<Body className="text-lg text-white mb-4">
+						<Body
+							className={`text-lg mb-4 ${
+								mode === "transparent" ? "text-[#EA5817]" : ""
+							}`}
+						>
 							Reach out
 						</Body>
 						{/* <Link
@@ -186,7 +219,11 @@ export default function Footer({
             </Link> */}
 						<a
 							href="mailto:contact@bread.coop"
-							className="text-surface-ink hover:text-paper-0 font-breadBody flex items-center gap-2"
+							className={`font-breadBody flex items-center gap-2 ${
+								mode === "colored"
+									? "text-surface-ink hover:text-paper-0"
+									: ""
+							}`}
 						>
 							<EnvelopeSimpleIcon className="w-6 h-6 text-orange-0" />
 							contact@bread.coop
@@ -195,17 +232,26 @@ export default function Footer({
 
 					{/* Support Us Column */}
 					<div className="w-full">
-						<Body className="text-lg text-white mb-4">
+						<Body
+							className={`text-lg mb-4 ${
+								mode === "transparent" ? "text-[#EA5817]" : ""
+							}`}
+						>
 							Support us
 						</Body>
 						<ul className="space-y-3">
 							<li>
-								<FooterLink href={LINKS.giveth} isExternal>
+								<FooterLink
+									mode={mode}
+									href={LINKS.giveth}
+									isExternal
+								>
 									Donate in crypto
 								</FooterLink>
 							</li>
 							<li>
 								<FooterLink
+									mode={mode}
 									href={LINKS.openCollective}
 									isExternal
 								>
@@ -217,13 +263,11 @@ export default function Footer({
 				</div>
 			</div>
 			<div className="border-t border-orange-0 pt-6 flex flex-col justify-between items-center gap-4 md:flex-row md:mx-auto md:max-w-7xl">
-				<Body className="text-white text-sm">
+				<Body className="text-sm">
 					Creative Commons ©BREAD Cooperative
 				</Body>
 				<div className="flex items-center gap-4">
-					<Body className="text-white text-sm">
-						All Rights Reserved
-					</Body>
+					<Body className="text-sm">All Rights Reserved</Body>
 					{/* TODO: Add terms and conditions and privacy policy #10 */}
 					{/* <span className="text-white">|</span>
 						<a
