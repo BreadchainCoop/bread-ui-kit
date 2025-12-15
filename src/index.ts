@@ -21,4 +21,5 @@ export {
 
 // Logo component
 export { Logo } from "./components/Logo";
+export * from "./components/navbar";
 export type { LogoProps, LogoColor, LogoVariant } from "./components/Logo";
