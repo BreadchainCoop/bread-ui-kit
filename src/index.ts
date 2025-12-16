@@ -1,6 +1,7 @@
 // Note: CSS is provided separately via theme.css and tailwind-preset.js
 // Consumers can choose their preferred integration method
 
+export * from "./components/auth";
 export { default as Chip } from "./components/chip/chip";
 export { default as Footer } from "./components/footer/footer";
 export { default as LiftedButton } from "./components/LiftedButton/LiftedButton";
