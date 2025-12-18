@@ -190,7 +190,7 @@ export const NavSolidarityAppsDesktop = ({
 				Open BREAD menu
 			</button>
 			<Body className="md:text-surface-grey-2 md:inline-flex md:items-center md:justify-center md:gap-2 lg:text-2xl lg:mt-1">
-				<span>{label}</span>
+				<span className="capitalize">{label}</span>
 				<span
 					className={`transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180 md:mt-[-0.0625rem] lg:-mt-1 ${appConfig.text}`}
 				>

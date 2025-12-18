@@ -1,6 +1,8 @@
 // Note: CSS is provided separately via theme.css and tailwind-preset.js
 // Consumers can choose their preferred integration method
 
+export { type LinkProps, LinkProvider, useLinkComponent } from "./context/link";
+
 export * from "./components/auth";
 export { default as Chip } from "./components/chip/chip";
 export { default as Footer } from "./components/footer/footer";
