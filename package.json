@@ -47,11 +47,17 @@
   "author": "Bread Coop",
   "license": "P2P",
   "peerDependencies": {
+    "@rainbow-me/rainbowkit": "^2",
+    "@tanstack/react-query": "^5",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
-    "@rainbow-me/rainbowkit": "^2",
-    "wagmi": "^2",
-    "viem": "^2"
+    "viem": "^2",
+    "wagmi": "^2"
+  },
+  "dependencies": {
+    "@radix-ui/react-navigation-menu": "^1.2.14",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@phosphor-icons/react": "^2.1.1",

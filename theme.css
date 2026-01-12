@@ -207,3 +207,11 @@ body {
   color: var(--foreground);
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
+
+.nav-account-menu {
+  @apply z-20!;
+}
+
+.nav-account-menu > div {
+  @apply w-auto md:w-max;
+}

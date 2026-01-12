@@ -3,19 +3,26 @@
 import { ReactNode, useRef } from "react";
 import { ListIcon, XIcon } from "@phosphor-icons/react/dist/ssr";
 import { NavSolidarityApps, NavSolidarityAppsDesktop } from "./solidarity-apps";
-import { LoginButton } from "../auth";
 import { App } from "../../interface/app";
 import { useLinkComponent } from "../../context/link";
 import { Logo, LogoProps } from "../Logo";
 import { appsConfig } from "../../utils/app";
+import AccountSection from "./account-section";
+import { NavAccountDetailsProps } from "./account-widget";
 
-interface NavbarProps {
+interface NavbarProps
+	extends Pick<NavAccountDetailsProps, "widgetItems"> {
 	app: App;
 	children: ReactNode;
 	className?: string;
 }
 
-export function Navbar({ app, children, className = "" }: NavbarProps) {
+export function Navbar({
+	app,
+	children,
+	className = "",
+	widgetItems,
+}: NavbarProps) {
 	const Link = useLinkComponent();
 	const menuRef = useRef<HTMLDivElement>(null);
 	const appConfig = appsConfig[app];
@@ -59,7 +66,7 @@ export function Navbar({ app, children, className = "" }: NavbarProps) {
 			</button>
 			<div
 				ref={menuRef}
-				className="bg-paper-main fixed overflow-y-scroll top-0 left-0 z-50 h-screen w-screen py-2.5 px-6 transition-transform translate-x-full md:static md:h-auto md:w-auto md:translate-x-0 md:py-0 md:px-0 md:flex md:items-center md:justify-end md:overflow-x-hidden md:transition-none md:z-auto"
+				className="bg-paper-main fixed overflow-y-scroll top-0 left-0 z-50 h-screen w-screen py-2.5 px-6 transition-transform translate-x-full md:static md:h-auto md:w-auto md:translate-x-0 md:py-0 md:px-0 md:flex md:items-center md:justify-end md:overflow-x-visible md:overflow-y-visible md:transition-none md:z-auto"
 			>
 				<div className="flex items-center justify-between mb-6 md:hidden">
 					<Link href="/">
@@ -80,9 +87,10 @@ export function Navbar({ app, children, className = "" }: NavbarProps) {
 					current={app}
 					className="mt-6 md:hidden"
 				/>
-				<div className="mt-6 md:mt-0">
-					<LoginButton app={app} status="NOT_CONNECTED" />
-				</div>
+				<AccountSection
+					app={app}
+					widgetItems={widgetItems}
+				/>
 			</div>
 		</div>
 	);
