@@ -1,4 +1,4 @@
-export function formatBalance(value: number, decimals: number) {
+export function formatBalance(value: number, decimals = 2) {
   const balanceFormatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,

@@ -11,6 +11,7 @@ interface FormattedDecimalNumberProps {
 	withBreadIcon?: boolean;
 	breadIconClassName?: string;
 	breadSize?: number;
+	unit?: string;
 }
 
 export function FormattedDecimalNumber({
@@ -21,6 +22,7 @@ export function FormattedDecimalNumber({
 	withBreadIcon,
 	breadIconClassName,
 	breadSize = 24,
+	unit = "",
 }: FormattedDecimalNumberProps) {
 	const parsedValue = typeof value === "number" ? value : parseFloat(value);
 	const formattedValue = formatBalance(parsedValue, 2);
@@ -37,7 +39,7 @@ export function FormattedDecimalNumber({
 				className={cn(withBreadIcon && "mt-[0.2rem]", className)}
 			>
 				<span className={cn("text-base", integralPartClassName)}>
-					{integerPart}
+					{`${unit}${integerPart}`.trim()}
 				</span>
 				<span className={cn("text-xs", decimalPartClassName)}>
 					.{decimalPart}
