@@ -11,7 +11,7 @@ import AccountSection from "./account-section";
 import { NavAccountDetailsProps } from "./account-widget";
 
 interface NavbarProps
-	extends Pick<NavAccountDetailsProps, "widgetItems"> {
+	extends Pick<NavAccountDetailsProps, "widgetItems" | "actionItems"> {
 	app: App;
 	children: ReactNode;
 	className?: string;
@@ -22,6 +22,7 @@ export function Navbar({
 	children,
 	className = "",
 	widgetItems,
+	actionItems
 }: NavbarProps) {
 	const Link = useLinkComponent();
 	const menuRef = useRef<HTMLDivElement>(null);
@@ -90,6 +91,7 @@ export function Navbar({
 				<AccountSection
 					app={app}
 					widgetItems={widgetItems}
+					actionItems={actionItems}
 				/>
 			</div>
 		</div>

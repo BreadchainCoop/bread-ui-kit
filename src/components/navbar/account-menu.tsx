@@ -1,8 +1,7 @@
 "use client";
 
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { type Address, type GetEnsNameReturnType } from "viem";
-import { type UseEnsNameReturnType } from "wagmi";
+import { type Address } from "viem";
 import { Body } from "../typography/Typography";
 import { truncateAddress } from "../../utils/truncate-address";
 import { CaretDownIcon } from "@phosphor-icons/react";
@@ -11,9 +10,8 @@ import { App } from "../../interface/app";
 import { appsConfig } from "../../utils/app";
 
 export interface AccountMenuProps
-	extends Pick<NavAccountDetailsProps, "widgetItems"> {
+	extends Pick<NavAccountDetailsProps, "widgetItems" | "ensNameResult" | "actionItems"> {
 	userAddress: Address;
-	ensNameResult: UseEnsNameReturnType<GetEnsNameReturnType>;
 	app: App;
 }
 
@@ -22,6 +20,7 @@ const AccountMenu = ({
 	ensNameResult,
 	app,
 	widgetItems,
+	actionItems
 }: AccountMenuProps) => {
 	return (
 		<NavigationMenu.Root className="relative">
@@ -48,6 +47,7 @@ const AccountMenu = ({
 							ensNameResult={ensNameResult}
 							app={app}
 							widgetItems={widgetItems}
+							actionItems={actionItems}
 						/>
 					</NavigationMenu.Content>
 				</NavigationMenu.Item>

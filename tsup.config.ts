@@ -7,7 +7,7 @@ export default defineConfig({
   splitting: false,
   sourcemap: false, // Disable sourcemaps to avoid deployment issues
   clean: true,
-  external: ["react", "react-dom"],
+  external: ["react", "react-dom", "@privy-io/react-auth"],
   treeshake: true,
   minify: true,
   css: false, // Disable CSS processing in tsup

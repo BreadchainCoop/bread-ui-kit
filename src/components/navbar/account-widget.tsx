@@ -27,10 +27,15 @@ const GNOSIS_LINK = "https://gnosisscan.io/address/";
 
 export interface NavAccountDetailsProps {
 	userAddress: Address;
-	ensNameResult: UseEnsNameReturnType<GetEnsNameReturnType>;
+	ensNameResult: UseEnsNameReturnType<GetEnsNameReturnType> | { 
+		data: string | undefined; 
+		isLoading: boolean; 
+		isError: boolean;
+	};
 	className?: string;
 	app: App;
 	widgetItems?: ReactNode;
+	actionItems?: ReactNode;
 }
 
 const NavAccountDetails = ({
@@ -39,6 +44,7 @@ const NavAccountDetails = ({
 	ensNameResult,
 	app,
 	widgetItems,
+	actionItems,
 }: NavAccountDetailsProps) => {
 	const { BREAD } = useBreadBalance({ address: userAddress });
 
@@ -58,7 +64,7 @@ const NavAccountDetails = ({
 			>
 				<button
 					className="text-surface-grey"
-					disabled={!ensNameResult.data || !userAddress}
+					disabled={!ensNameResult.data && !userAddress}
 					onClick={() =>
 						copyToClipboard(ensNameResult.data || userAddress || "")
 					}
@@ -68,6 +74,8 @@ const NavAccountDetails = ({
 				<a
 					href={GNOSIS_LINK + (userAddress || "")}
 					className="text-surface-grey"
+					target="_blank"
+					rel="noopener noreferrer"
 				>
 					<ArrowUpRightIcon size={24} />
 				</a>
@@ -101,6 +109,7 @@ const NavAccountDetails = ({
 					<Body className="font-bold">Gnosis chain</Body>
 				</div>
 			</NavAccountWidgetItem>
+			{actionItems}
 			<LogoutButton className="mt-1" />
 		</section>
 	);

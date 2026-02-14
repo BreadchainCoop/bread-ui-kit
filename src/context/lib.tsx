@@ -4,6 +4,22 @@ import { createContext, useContext } from "react";
 import { Abi, Address } from "viem";
 import { App } from "../interface/app";
 
+// interface PrivyAuthProvider {
+// 	provider: "privy",
+// 	config?: {
+// 		appId: string;
+// 	}
+// }
+
+// interface GeneralAuthProvider {
+// 	provider: "general",
+// 	config?: {
+// 		projectId: string;
+// 	}
+// }
+
+type AuthProvider = "privy" | "general";
+
 type TokenConfig = {
 	BREAD: { address: Address; abi: Abi };
 };
@@ -12,6 +28,7 @@ type BreadUIKitContextType = {
 	isProd: boolean;
 	tokenConfig: TokenConfig;
 	app: App;
+	authProvider: AuthProvider;
 };
 
 export const BreadUIKitContext = createContext<
@@ -23,10 +40,12 @@ export const BreadUIKitProvider = ({
 	tokenConfig,
 	children,
 	app,
+	authProvider,
 }: {
 	isProd: boolean;
 	tokenConfig: TokenConfig;
 	app: App;
+	authProvider: AuthProvider;
 	children: React.ReactNode;
 }) => {
 	if (isProd) {
@@ -35,7 +54,7 @@ export const BreadUIKitProvider = ({
 	}
 
 	return (
-		<BreadUIKitContext.Provider value={{ isProd, tokenConfig, app }}>
+		<BreadUIKitContext.Provider value={{ isProd, tokenConfig, app, authProvider }}>
 			{children}
 		</BreadUIKitContext.Provider>
 	);
@@ -51,4 +70,10 @@ export const useBreadUIKitContext = () => {
 	}
 
 	return context;
+};
+
+// Convenience hook to get just the auth provider
+export const useAuthProvider = () => {
+	const context = useBreadUIKitContext();
+	return context.authProvider;
 };
