@@ -6,6 +6,7 @@ export { type LinkProps, LinkProvider, useLinkComponent } from "./context/link";
 export * from "./hooks/index";
 
 export * from "./components/auth";
+export * from "./components/buttons";
 export { default as Chip } from "./components/chip/chip";
 export * from "./components/connected-user";
 export { default as Footer } from "./components/footer/footer";

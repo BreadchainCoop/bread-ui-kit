@@ -22,6 +22,7 @@ import { useBreadBalance } from "../../hooks/use-bread-balance";
 import { Address } from "viem";
 import NavAccountWidgetItem from "./account-widget-item";
 import { FormattedDecimalNumber } from "../typography/formatted-dec-num";
+import { CopyButtonIcon } from "../buttons";
 
 const GNOSIS_LINK = "https://gnosisscan.io/address/";
 
@@ -54,7 +55,7 @@ const NavAccountDetails = ({
 		<section
 			className={clsx(
 				"bg-paper-2 p-5 flex flex-col gap-4 w-full max-w-md",
-				className
+				className,
 			)}
 		>
 			<NavAccountWidgetItem
@@ -62,15 +63,9 @@ const NavAccountDetails = ({
 				appIconColor={appIconColor}
 				label={ensNameResult.data || truncateAddress(userAddress || "")}
 			>
-				<button
-					className="text-surface-grey"
-					disabled={!ensNameResult.data && !userAddress}
-					onClick={() =>
-						copyToClipboard(ensNameResult.data || userAddress || "")
-					}
-				>
-					<CopyIcon size={24} />
-				</button>
+				<CopyButtonIcon
+					textToCopy={ensNameResult.data || userAddress}
+				/>
 				<a
 					href={GNOSIS_LINK + (userAddress || "")}
 					className="text-surface-grey"
