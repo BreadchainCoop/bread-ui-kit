@@ -1,3 +1,6 @@
+"use client";
+
+import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { LINKS } from "../../constansts/links";
 import { App } from "../../interface/app";
 import { appsConfig } from "../../utils/app";
@@ -85,7 +88,7 @@ export const NavSolidarityApps = ({
 				if (a.id === current) return -1;
 				if (b.id === current) return 1;
 				return 0;
-		  })
+			})
 		: [..._apps];
 	const appConfig = appsConfig[current];
 
@@ -115,7 +118,7 @@ export const NavSolidarityApps = ({
 											current === app.id
 												? appConfig.border
 												: "border-transparent"
-									  }`
+										}`
 							}`}
 						>
 							{isLink ? (
@@ -181,37 +184,31 @@ export const NavSolidarityAppsDesktop = ({
 	const appConfig = appsConfig[app];
 
 	return (
-		<div className="hidden md:block md:mr-auto md:ml-2 group relative">
-			<button
-				aria-haspopup="true"
-				aria-expanded={false}
-				className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 opacity-0"
-			>
-				Open BREAD menu
-			</button>
-			<Body className="md:text-surface-grey-2 md:inline-flex md:items-center md:justify-center md:gap-2 lg:text-2xl lg:mt-1">
-				<span className="capitalize">{label}</span>
-				<span
-					className={`transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180 md:mt-[-0.0625rem] lg:-mt-1 ${appConfig.text}`}
-				>
-					<Caret />
-				</span>
-			</Body>
-			<div className="absolute left-0 top-full mt-2 w-80 opacity-0 invisible -translate-y-4 pointer-events-none transition-all duration-300 ease-out z-50 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:pointer-events-auto lg:left-auto lg:right-0">
-				{/* Invisible hover bridge (eliminates gap) */}
-				<div className="h-4 -mt-4" aria-hidden="true" />
-
-				<div className="bg-paper-main border border-paper-2 overflow-hidden">
-					<div tabIndex={-1}>
-						<NavSolidarityApps
-							current={app}
-							// className="py-6 px-8 bg-white"
-							className="py-6 px-8"
-						/>
-					</div>
-				</div>
-			</div>
-		</div>
+		<NavigationMenu.Root className="hidden md:block md:mr-auto md:ml-2 relative">
+			<NavigationMenu.List>
+				<NavigationMenu.Item>
+					<NavigationMenu.Trigger className="group">
+						<Body className="md:text-surface-grey-2 md:inline-flex md:items-center md:justify-center md:gap-2 lg:text-2xl lg:mt-1">
+							<span className="capitalize">{label}</span>
+							<span
+								className={`transition-transform duration-300 group-data-[state=open]:rotate-180 md:mt-[-0.0625rem] lg:-mt-1 ${appConfig.text}`}
+							>
+								<Caret />
+							</span>
+						</Body>
+					</NavigationMenu.Trigger>
+					<NavigationMenu.Content className="w-80">
+						<div className="bg-paper-main border border-paper-2 overflow-hidden">
+							<NavSolidarityApps
+								current={app}
+								className="py-6 px-8"
+							/>
+						</div>
+					</NavigationMenu.Content>
+				</NavigationMenu.Item>
+			</NavigationMenu.List>
+			<NavigationMenu.Viewport className="absolute left-0 top-full mt-2 z-50" />
+		</NavigationMenu.Root>
 	);
 };
 
