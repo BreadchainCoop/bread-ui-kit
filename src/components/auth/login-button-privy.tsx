@@ -5,14 +5,13 @@ import { ReactNode } from "react";
 import LiftedButton from "../LiftedButton/LiftedButton";
 import { ButtonShell } from "./button-shell";
 import { App } from "../../interface/app";
-import { gnosis } from "viem/chains";
+import { useBreadUIKitContext } from "../../context/lib";
 
 export interface LoginButtonPrivyProps {
 	app: App;
 	status: "CONNECTED" | "LOADING" | "UNSUPPORTED_CHAIN" | "NOT_CONNECTED";
 	label?: string;
 	rightIcon?: ReactNode;
-	isProd?: boolean;
 }
 
 export const LoginButtonPrivy = ({
@@ -20,8 +19,9 @@ export const LoginButtonPrivy = ({
 	status,
 	label = "Sign In",
 	rightIcon,
-	isProd = true,
 }: LoginButtonPrivyProps) => {
+	const { chainId } = useBreadUIKitContext();
+
 	const className =
 		app === "fund"
 			? "bg-primary-orange"
@@ -42,7 +42,7 @@ export const LoginButtonPrivy = ({
 		return (
 			<SwitchNetwork
 				activeWallet={activeWallet}
-				isProd={isProd}
+				chainId={chainId}
 				className={className}
 			/>
 		);
@@ -63,11 +63,11 @@ export const LoginButtonPrivy = ({
 
 function SwitchNetwork({
 	activeWallet,
-	isProd,
+	chainId,
 	className,
 }: {
 	activeWallet: ConnectedWallet;
-	isProd: boolean;
+	chainId: number;
 	className?: string;
 }) {
 	return (
@@ -77,8 +77,7 @@ function SwitchNetwork({
 					if (!activeWallet) return;
 
 					try {
-						const targetChainId = isProd ? gnosis.id : 31337;
-						await activeWallet.switchChain(targetChainId);
+						await activeWallet.switchChain(chainId);
 					} catch (error) {
 						console.error("Failed to switch chain:", error);
 					}

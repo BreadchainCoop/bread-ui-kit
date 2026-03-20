@@ -2,7 +2,6 @@
 
 import {
 	ArrowUpRightIcon,
-	CopyIcon,
 	GraphIcon,
 	UserCircleIcon,
 	WalletIcon,
@@ -13,7 +12,6 @@ import { UseEnsNameReturnType } from "wagmi";
 import { GetEnsNameReturnType } from "@wagmi/core";
 import { Body } from "../typography/Typography";
 import { truncateAddress } from "../../utils/truncate-address";
-import { copyToClipboard } from "../../utils/copy-to-clipboard";
 import { Logo } from "../Logo";
 import LogoutButton from "./log-out";
 import { App } from "../../interface/app";
@@ -23,20 +21,23 @@ import { Address } from "viem";
 import NavAccountWidgetItem from "./account-widget-item";
 import { FormattedDecimalNumber } from "../typography/formatted-dec-num";
 import { CopyButtonIcon } from "../buttons";
-
-const GNOSIS_LINK = "https://gnosisscan.io/address/";
+import { useConnectedUser } from "../connected-user";
 
 export interface NavAccountDetailsProps {
 	userAddress: Address;
-	ensNameResult: UseEnsNameReturnType<GetEnsNameReturnType> | { 
-		data: string | undefined; 
-		isLoading: boolean; 
+	ensNameResult: UseEnsNameReturnType<GetEnsNameReturnType> | {
+		data: string | undefined;
+		isLoading: boolean;
 		isError: boolean;
 	};
 	className?: string;
 	app: App;
 	widgetItems?: ReactNode;
 	actionItems?: ReactNode;
+}
+
+const chainsIcon = {
+	100: "/gnosis_icon.svg",
 }
 
 const NavAccountDetails = ({
@@ -48,8 +49,17 @@ const NavAccountDetails = ({
 	actionItems,
 }: NavAccountDetailsProps) => {
 	const { BREAD } = useBreadBalance({ address: userAddress });
+	const { user } = useConnectedUser();
 
 	const appIconColor = appsConfig[app].text;
+
+	const chain = user.status === "CONNECTED" || user.status === "UNSUPPORTED_CHAIN"
+		? user.chain
+		: undefined;
+	const blockExplorerUrl = chain?.blockExplorers?.default.url ?? "https://gnosisscan.io";
+	const scanLink = `${blockExplorerUrl}/address/`;
+	const chainName = chain?.name ?? "Unknown";
+	const chainIcon = chain ? chainsIcon[chain.id as keyof typeof chainsIcon] : undefined;
 
 	return (
 		<section
@@ -67,7 +77,7 @@ const NavAccountDetails = ({
 					textToCopy={ensNameResult.data || userAddress}
 				/>
 				<a
-					href={GNOSIS_LINK + (userAddress || "")}
+					href={scanLink + (userAddress || "")}
 					className="text-surface-grey"
 					target="_blank"
 					rel="noopener noreferrer"
@@ -94,14 +104,16 @@ const NavAccountDetails = ({
 				label="Network"
 			>
 				<div className="flex items-center justify-center">
-					<img
-						src="/gnosis_icon.svg"
-						alt=""
-						width={24}
-						height={24}
-						className="mr-2"
-					/>
-					<Body className="font-bold">Gnosis chain</Body>
+					{chainIcon && (
+						<img
+							src={chainIcon}
+							alt=""
+							width={24}
+							height={24}
+							className="mr-2"
+						/>
+					)}
+					<Body className="font-bold">{chainName}</Body>
 				</div>
 			</NavAccountWidgetItem>
 			{actionItems}

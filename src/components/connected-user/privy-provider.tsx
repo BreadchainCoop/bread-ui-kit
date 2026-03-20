@@ -1,23 +1,29 @@
 "use client";
 
 import { ReactNode, useMemo } from "react";
-import { anvil, gnosis } from "viem/chains";
 import { type Hex } from "viem";
+import { useChains } from "wagmi";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { TConnectedUserState, TUserConnected } from ".";
 import { ConnectedUserContext } from "./context";
 
 interface IConnectedUserProviderPrivyProps {
   children: ReactNode;
-  isProd: boolean;
+  chainId: number;
 }
 
 export function ConnectedUserProviderPrivy({
-  isProd,
+  chainId,
   children,
 }: IConnectedUserProviderPrivyProps) {
   const { ready, authenticated } = usePrivy();
   const { wallets } = useWallets();
+  const configuredChains = useChains();
+
+  const defaultChain = useMemo(
+    () => configuredChains.find(c => c.id === chainId) ?? configuredChains[0],
+    [configuredChains, chainId]
+  );
 
   const embeddedWallet = useMemo(() => {
     return wallets.find(
@@ -36,25 +42,21 @@ export function ConnectedUserProviderPrivy({
     }
 
     const address = embeddedWallet.address as Hex;
-    const chainId = embeddedWallet.chainId;
+    const walletChainId = embeddedWallet.chainId;
+    const parsedChainId = walletChainId ? parseInt(walletChainId.split(":")[1]) : undefined;
 
-    const parsedChainId = chainId ? parseInt(chainId.split(":")[1]) : undefined;
+    const _status: TUserConnected["status"] =
+      parsedChainId === chainId ? "CONNECTED" : "UNSUPPORTED_CHAIN";
 
-    let _status: TUserConnected["status"] = "CONNECTED";
-    if (isProd) {
-      _status = parsedChainId === gnosis.id ? "CONNECTED" : "UNSUPPORTED_CHAIN";
-    } else {
-      _status = parsedChainId === anvil.id ? "CONNECTED" : "UNSUPPORTED_CHAIN";
-    }
-
-    const chain = isProd ? gnosis : anvil;
+    const chain =
+      configuredChains.find(c => c.id === parsedChainId) ?? defaultChain;
 
     return {
       status: _status,
       address,
       chain,
     };
-  }, [ready, authenticated, embeddedWallet, isProd]);
+  }, [ready, authenticated, embeddedWallet, chainId, configuredChains, defaultChain]);
 
   // Embedded wallets are never Safe wallets
   const isSafe = useMemo(() => {

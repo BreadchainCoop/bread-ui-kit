@@ -9,7 +9,6 @@ import { useAuthProvider } from "../../context/lib";
 
 export const LoginButton = ({
 	label = "Sign In",
-	isProd,
 	...props
 }: LoginButtonPrivyProps) => {
 	const authProvider = useAuthProvider();
@@ -18,7 +17,6 @@ export const LoginButton = ({
 		return (
 			<LoginButtonPrivy
 				{...props}
-				isProd={isProd}
 				label={label}
 			/>
 		);
