@@ -1,12 +1,10 @@
 import { Address, erc20Abi, formatUnits } from "viem";
 import { useBlock, useReadContract } from "wagmi";
 import { useBreadUIKitContext } from "../context/lib";
-import { getActiveChainId } from "../utils/active-chain";
 import { useEffect, useMemo } from "react";
 
 export const useBreadBalance = ({ address }: { address: Address }) => {
-	const { tokenConfig, isProd } = useBreadUIKitContext();
-	const chainId = getActiveChainId(isProd);
+	const { tokenConfig, chainId } = useBreadUIKitContext();
 
 	const { data: blockNumber } = useBlock({ watch: true, chainId });
 	const {

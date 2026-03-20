@@ -2,19 +2,24 @@
 
 import { ReactNode, useMemo } from "react";
 import { TConnectedUserState, TUserConnected } from "./interface";
-import { useAccount } from "wagmi";
+import { useAccount, useChains } from "wagmi";
 import { useAutoConnect } from "../../hooks/use-auto-connect";
-import { anvil, gnosis } from "viem/chains";
 import { ConnectedUserContext } from "./context";
 
 interface IConnectedUserProviderGeneralProps {
 	children: ReactNode;
-	isProd: boolean;
+	chainId: number;
 }
 
-export function ConnectedUserProviderGeneral({ isProd, children }: IConnectedUserProviderGeneralProps) {
+export function ConnectedUserProviderGeneral({ chainId, children }: IConnectedUserProviderGeneralProps) {
 	const { isConnected, connector, address, status, chain } = useAccount();
 	const { isSafe } = useAutoConnect(connector);
+	const configuredChains = useChains();
+
+	const defaultChain = useMemo(
+		() => configuredChains.find(c => c.id === chainId) ?? configuredChains[0],
+		[configuredChains, chainId]
+	);
 
 	const user = useMemo<TConnectedUserState>(() => {
 		if (status === "connecting" && !address) {
@@ -25,20 +30,15 @@ export function ConnectedUserProviderGeneral({ isProd, children }: IConnectedUse
 			return { status: "NOT_CONNECTED" };
 		}
 
-		let _staus: TUserConnected["status"] = "CONNECTED";
-		if (isProd) {
-			_staus =
-				chain?.id === gnosis.id ? "CONNECTED" : "UNSUPPORTED_CHAIN";
-		} else {
-			_staus = chain?.id === anvil.id ? "CONNECTED" : "UNSUPPORTED_CHAIN";
-		}
+		const _status: TUserConnected["status"] =
+			chain?.id === chainId ? "CONNECTED" : "UNSUPPORTED_CHAIN";
 
 		return {
-			status: _staus,
+			status: _status,
 			address,
-			chain: chain || (isProd ? gnosis : anvil),
+			chain: chain ?? defaultChain,
 		};
-	}, [isConnected, address, chain, status]);
+	}, [isConnected, address, chain, status, chainId, defaultChain]);
 
 	const value = useMemo(() => ({ user, isSafe }), [user, isSafe]);
 

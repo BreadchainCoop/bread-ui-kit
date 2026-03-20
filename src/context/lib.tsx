@@ -4,20 +4,6 @@ import { createContext, useContext } from "react";
 import { Abi, Address } from "viem";
 import { App } from "../interface/app";
 
-// interface PrivyAuthProvider {
-// 	provider: "privy",
-// 	config?: {
-// 		appId: string;
-// 	}
-// }
-
-// interface GeneralAuthProvider {
-// 	provider: "general",
-// 	config?: {
-// 		projectId: string;
-// 	}
-// }
-
 type AuthProvider = "privy" | "general";
 
 type TokenConfig = {
@@ -25,7 +11,7 @@ type TokenConfig = {
 };
 
 type BreadUIKitContextType = {
-	isProd: boolean;
+	chainId: number;
 	tokenConfig: TokenConfig;
 	app: App;
 	authProvider: AuthProvider;
@@ -36,25 +22,20 @@ export const BreadUIKitContext = createContext<
 >(undefined);
 
 export const BreadUIKitProvider = ({
-	isProd,
+	chainId,
 	tokenConfig,
 	children,
 	app,
 	authProvider,
 }: {
-	isProd: boolean;
+	chainId: number;
 	tokenConfig: TokenConfig;
 	app: App;
 	authProvider: AuthProvider;
 	children: React.ReactNode;
 }) => {
-	if (isProd) {
-		tokenConfig.BREAD.address =
-			"0xa555d5344f6FB6c65da19e403Cb4c1eC4a1a5Ee3";
-	}
-
 	return (
-		<BreadUIKitContext.Provider value={{ isProd, tokenConfig, app, authProvider }}>
+		<BreadUIKitContext.Provider value={{ chainId, tokenConfig, app, authProvider }}>
 			{children}
 		</BreadUIKitContext.Provider>
 	);
