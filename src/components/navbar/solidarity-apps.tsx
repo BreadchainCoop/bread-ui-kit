@@ -18,7 +18,7 @@ const _apps = [
 	{
 		id: "fund",
 		label: "Solidarity Fund",
-		desc: "Fund post-capitalism",
+		desc: "Give without giving",
 		color: "text-[#EA5817]",
 		comingSoon: false,
 		webLink: LINKS.solidarityFund,
