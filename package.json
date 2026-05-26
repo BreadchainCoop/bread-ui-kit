@@ -89,7 +89,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bread-coop/bread-ui-kit.git"
+    "url": "git+https://github.com/bread-coop/bread-ui-kit.git"
   },
   "bugs": {
     "url": "https://github.com/bread-coop/bread-ui-kit/issues"
