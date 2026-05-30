@@ -1,12 +1,10 @@
 import { defineConfig } from "tsup";
 
-export default defineConfig({
-  entry: ["src/index.ts"],
-  format: ["cjs", "esm"],
+const sharedConfig = {
   dts: true,
   splitting: false,
-  sourcemap: false, // Disable sourcemaps to avoid deployment issues
-  clean: true,
+  sourcemap: false,
+  target: "es2017" as const,
   external: [
     "react",
     "react-dom",
@@ -17,6 +15,21 @@ export default defineConfig({
     "@tanstack/react-query",
   ],
   treeshake: true,
-  minify: true,
-  css: false, // Disable CSS processing in tsup
-});
+  minify: false,
+  css: false,
+};
+
+export default defineConfig([
+  {
+    ...sharedConfig,
+    entry: ["src/index.ts"],
+    format: ["cjs", "esm"],
+    clean: true,
+  },
+  {
+    ...sharedConfig,
+    entry: ["src/client.ts"],
+    format: ["cjs", "esm"],
+    clean: false,
+  },
+]);

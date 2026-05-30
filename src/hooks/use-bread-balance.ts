@@ -1,3 +1,5 @@
+"use client";
+
 import { Address, erc20Abi, formatUnits } from "viem";
 import { useBlock, useReadContract } from "wagmi";
 import { useBreadUIKitContext } from "../context/lib";

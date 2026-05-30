@@ -12,6 +12,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.mjs",
+      "require": "./dist/client.js"
+    },
     "./tailwind-preset": "./tailwind-preset.js",
     "./theme": "./dist/theme.css",
     "./fonts": "./dist/fonts.css",
@@ -24,7 +29,7 @@
     "fonts"
   ],
   "scripts": {
-    "build": "tsup && npm run copy-files",
+    "build": "tsup && node scripts/add-use-client.mjs && npm run copy-files",
     "build:all": "npm run build && npm run build-storybook",
     "copy-files": "cp tailwind-preset.js dist/ && cp theme.css dist/ && cp -r src/fonts dist/",
     "dev": "tsup --watch",

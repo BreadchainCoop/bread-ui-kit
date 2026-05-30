@@ -11,6 +11,7 @@ import { LINKS } from "../../constansts/links";
 import { Body } from "../typography/Typography";
 import { Logo } from "../Logo";
 import { SOLIDARITY_TOOLS } from "../../constansts/tools";
+import { ReactNode } from "react";
 
 function SocialIcons({ className = "" }: { className?: string }) {
 	return (
@@ -63,7 +64,7 @@ function SocialIcons({ className = "" }: { className?: string }) {
 
 interface FooterLinkProps extends Pick<FooterProps, "mode"> {
 	href: string;
-	children: React.ReactNode;
+	children: ReactNode;
 	isExternal?: boolean;
 }
 

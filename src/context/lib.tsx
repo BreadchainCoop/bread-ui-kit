@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { Abi, Address } from "viem";
 import { App } from "../interface/app";
 
@@ -32,7 +32,7 @@ export const BreadUIKitProvider = ({
 	tokenConfig: TokenConfig;
 	app: App;
 	authProvider: AuthProvider;
-	children: React.ReactNode;
+	children: ReactNode;
 }) => {
 	return (
 		<BreadUIKitContext.Provider value={{ chainId, tokenConfig, app, authProvider }}>

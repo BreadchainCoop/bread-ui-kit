@@ -1,6 +1,4 @@
-"use client";
-
-import React from "react";
+import { ComponentPropsWithoutRef } from "react";
 
 export type LogoColor = "orange" | "blue" | "jade" | "white";
 export type LogoVariant = "square" | "line";
@@ -16,7 +14,7 @@ export type LogoProps = {
   variant?: LogoVariant;
   /** Optional text to display next to the logo */
   text?: string;
-} & React.ComponentPropsWithoutRef<"svg">;
+} & ComponentPropsWithoutRef<"svg">;
 
 /**
  * Logo component that renders the Bread UI Kit logo SVG.
