@@ -52,6 +52,7 @@
   --font-mono: var(--font-roboto);
 
   /* Custom Colors */
+  --color-core-orange: #EA5817;
   --color-primary-orange: #ea6023;
   --color-orange-0: #ffc080;
   --color-orange-1: #d14a0f;

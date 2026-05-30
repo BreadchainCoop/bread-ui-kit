@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       colors: {
         // Bread Coop brand colors
+        "core-orange": "#EA5817",
         "primary-orange": "#ea6023",
         "orange-0": "#ffc080",
         "orange-1": "#d14a0f",

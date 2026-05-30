@@ -22,4 +22,6 @@ export { FormattedDecimalNumber } from "./components/typography/formatted-dec-nu
 
 export * from "./components/Logo"
 
+export { LoadingIcon } from "./components/loading-icon";
+
 export * from "./utils/index";
