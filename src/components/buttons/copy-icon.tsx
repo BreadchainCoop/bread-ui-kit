@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes } from "react";
 import {
 	useCopyToClipboard,
 	UseCopyToClipboardPayload,

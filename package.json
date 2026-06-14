@@ -1,21 +1,14 @@
 {
   "name": "@breadcoop/ui",
-  "version": "1.0.28",
+  "version": "2.0.0",
   "description": "A component library for implementing Bread Coop branding in JS/TS projects",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "style": "dist/theme.css",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    },
-    "./client": {
-      "types": "./dist/client.d.ts",
-      "import": "./dist/client.mjs",
-      "require": "./dist/client.js"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     },
     "./tailwind-preset": "./tailwind-preset.js",
     "./theme": "./dist/theme.css",
@@ -29,7 +22,7 @@
     "fonts"
   ],
   "scripts": {
-    "build": "tsup && node scripts/add-use-client.mjs && npm run copy-files",
+    "build": "tsup && npm run copy-files",
     "build:all": "npm run build && npm run build-storybook",
     "copy-files": "cp tailwind-preset.js dist/ && cp theme.css dist/ && cp -r src/fonts dist/",
     "dev": "tsup --watch",
@@ -52,9 +45,10 @@
   "author": "Bread Coop",
   "license": "P2P",
   "peerDependencies": {
+    "@phosphor-icons/react": "^2.1.1",
+    "@privy-io/react-auth": "^3.13.1",
     "@rainbow-me/rainbowkit": "^2",
     "@tanstack/react-query": "^5",
-    "@privy-io/react-auth": "^3.13.1",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
     "viem": "^2",
@@ -66,7 +60,6 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
-    "@phosphor-icons/react": "^2.1.1",
     "@rainbow-me/rainbowkit": "^2.2.5",
     "@storybook/addon-docs": "^9.1.8",
     "@storybook/addon-webpack5-compiler-swc": "^4.0.1",
@@ -79,6 +72,7 @@
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
     "autoprefixer": "^10.4.21",
+    "esbuild-fix-imports-plugin": "^1.0.23",
     "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",

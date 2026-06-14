@@ -4,6 +4,8 @@
 
 export { default as Chip } from "./components/chip/chip";
 
+export * from "./components/navbar/index";
+
 export { default as Footer } from "./components/footer/footer";
 
 // Typography components for brand consistency
@@ -25,3 +27,13 @@ export * from "./components/Logo"
 export { LoadingIcon } from "./components/loading-icon";
 
 export * from "./utils/index";
+
+export * from "./components/auth";
+export * from "./components/buttons";
+export * from "./components/connected-user";
+export { default as LiftedButton } from "./components/LiftedButton/LiftedButton";
+export type { LiftedButtonProps } from "./components/LiftedButton/LiftedButton";
+
+export * from "./context";
+
+export * from "./hooks";

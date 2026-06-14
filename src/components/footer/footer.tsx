@@ -152,7 +152,7 @@ export default function Footer({
 					<div className="w-full">
 						<Body
 							className={`text-lg mb-4 ${
-								mode === "transparent" ? "text-[#EA5817]" : ""
+								mode === "transparent" ? "text-core-orange" : ""
 							}`}
 						>
 							Cooperative
@@ -183,7 +183,7 @@ export default function Footer({
 					<div className="w-full">
 						<Body
 							className={`text-lg mb-4 ${
-								mode === "transparent" ? "text-[#EA5817]" : ""
+								mode === "transparent" ? "text-core-orange" : ""
 							}`}
 						>
 							Solidarity tools
@@ -206,7 +206,7 @@ export default function Footer({
 					<div className="w-full">
 						<Body
 							className={`text-lg mb-4 ${
-								mode === "transparent" ? "text-[#EA5817]" : ""
+								mode === "transparent" ? "text-core-orange" : ""
 							}`}
 						>
 							Reach out
@@ -235,7 +235,7 @@ export default function Footer({
 					<div className="w-full">
 						<Body
 							className={`text-lg mb-4 ${
-								mode === "transparent" ? "text-[#EA5817]" : ""
+								mode === "transparent" ? "text-core-orange" : ""
 							}`}
 						>
 							Support us
