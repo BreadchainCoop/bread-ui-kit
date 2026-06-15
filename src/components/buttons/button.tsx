@@ -3,7 +3,13 @@ import { LoadingIcon } from "../loading-icon";
 import { App } from "../../interface/app";
 import { cn } from "../../utils";
 
-type Variant = "primary" | "secondary" | "destructive" | "positive" | "light";
+type Variant =
+	| "primary"
+	| "secondary"
+	| "destructive"
+	| "positive"
+	| "light"
+	| "burn";
 
 type ButtonOwnProps<E extends ElementType = "button"> = {
 	as?: E;
@@ -17,12 +23,16 @@ type ButtonOwnProps<E extends ElementType = "button"> = {
 	withBorder?: boolean;
 };
 
-type ButtonProps<E extends ElementType = "button"> = ButtonOwnProps<E> &
+export type ButtonProps<E extends ElementType = "button"> = ButtonOwnProps<E> &
 	Omit<ComponentPropsWithoutRef<E>, keyof ButtonOwnProps<E>>;
 
 const getBaseClassName = (app: App, variant: Variant) => {
 	if (variant === "destructive") {
 		return "bg-system-red hover:bg-[#BF0A00] active:bg-system-red";
+	}
+
+	if (variant === "burn") {
+		return "bg-red-0 text-red-main hover:bg-red-1 active:bg-red-0";
 	}
 
 	if (variant === "positive") {
@@ -77,6 +87,10 @@ const Button = <E extends ElementType = "button">({
 		<Component
 			{...rest}
 			className={cn(
+				"text-paper-main",
+				"href" in (rest as Record<string, unknown>)
+					? "cursor-pointer"
+					: "",
 				getBaseClassName(app, variant),
 				"flex items-center justify-center gap-2 active:shadow-none disabled:shadow-none disabled:bg-surface-grey disabled:cursor-not-allowed",
 				"transition-all duration-200 border disabled:border-transparent",
