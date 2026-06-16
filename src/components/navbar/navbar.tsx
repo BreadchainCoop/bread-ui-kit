@@ -20,6 +20,12 @@ interface NavbarProps extends Pick<
 	children: ReactNode;
 	className?: string;
 	/**
+	 * App-injected deposit action shown in the account widget (e.g.
+	 * <NavDepositButton app="fund" onClick={...} />). Each app wires its own
+	 * deposit/fund flow.
+	 */
+	depositSlot?: ReactNode;
+	/**
 	 * The link component of your framework (next/link, react-router-dom Link, etc).
 	 * Must accept `href`.
 	 */
@@ -32,6 +38,7 @@ export function Navbar({
 	className = "",
 	widgetItems,
 	actionItems,
+	depositSlot,
 	Link,
 }: NavbarProps) {
 	const appConfig = appsConfig[app];
@@ -75,6 +82,7 @@ export function Navbar({
 							app={app}
 							widgetItems={widgetItems}
 							actionItems={actionItems}
+							depositSlot={depositSlot}
 						/>
 					</>
 				}

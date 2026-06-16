@@ -9,7 +9,7 @@ import AccountMenu from "./account-menu";
 import { SignInIcon } from "@phosphor-icons/react/dist/ssr";
 import { NavAccountDetailsProps } from "./account-widget";
 import { useAuthProvider } from "../../context/lib";
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { type Address } from "viem";
 
 interface AccountSectionProps extends Pick<
@@ -17,9 +17,10 @@ interface AccountSectionProps extends Pick<
 	"widgetItems" | "actionItems"
 > {
 	app: App;
+	depositSlot?: ReactNode;
 }
 
-const AccountSection = ({ app, widgetItems, actionItems }: AccountSectionProps) => {
+const AccountSection = ({ app, widgetItems, actionItems, depositSlot }: AccountSectionProps) => {
 	const { user } = useConnectedUser();
 	const authProvider = useAuthProvider();
 
@@ -66,6 +67,7 @@ const AccountSection = ({ app, widgetItems, actionItems }: AccountSectionProps) 
 			<AccountMenu
 				widgetItems={widgetItems}
 				actionItems={actionItems}
+				depositSlot={depositSlot}
 				userAddress={address}
 				ensNameResult={ensNameResult}
 				app={app}
