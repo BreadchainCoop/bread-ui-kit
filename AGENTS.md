@@ -108,19 +108,47 @@ Then exercise the changed component in that app or in Storybook.
 
 ## Verification — how to check your work
 
-This project has **no automated test suite** (the `test` script points at jest, but there
-are zero test files). Do not claim a change "passes tests." The required gates before
-considering work done are:
+This project has **no automated unit-test suite** (the `test` script points at jest, but
+there are zero test files). For this library, **"testing" a component change means writing
+or updating its Storybook story and confirming it renders.** Do not claim a change "passes
+tests."
 
-1. `npm run lint` — must be clean (no errors).
-2. `npm run type-check` — `tsc --noEmit` must pass (strict mode).
-3. `npm run build` — must succeed, including `.d.ts` generation.
-4. For any visual or behavioral change, view the component in **Storybook**
-   (`npm run storybook`) and describe what you checked. If you add or change a component,
-   add or update its `*.stories.tsx`.
+When you **fix or create a component**, the required steps are:
 
-If you add non-trivial logic (a util/hook), consider adding a test even though none exist
-yet, and say so — but the gates above are the baseline that must pass.
+1. **Write or update its story.** Every component has a `*.stories.tsx` (see
+   [Writing stories](#writing-stories)). Creating a component is not "done" until it has a
+   story covering its main props/states. When you **fix a bug**, add a story — or a story
+   variant — that reproduces the case you fixed, so the fix is visible and regressions show.
+2. **`npm run lint`** — must be clean (no errors; pre-existing `exhaustive-deps` warnings are
+   tolerated).
+3. **`npm run type-check`** — `tsc --noEmit` must pass (strict).
+4. **`npm run build-storybook`** must succeed. Vite/Rollup fails the whole build on any
+   component or story that doesn't compile, so it catches broken imports, bad props, and
+   missing exports across the kit.
+5. **View it:** run `npm run storybook` (http://localhost:6006), open your story, and
+   describe what you checked — states, each `app` theme, responsive/mobile, connected vs
+   signed-out, etc.
+
+### Writing stories
+
+- **One `*.stories.tsx` per component**, with a **PascalCase filename even in kebab-case
+  folders** (e.g. `buttons/Button.stories.tsx`), titled `Components/<Area>/<Name>`. Add
+  `tags: ["autodocs"]` and expose the main props as controls.
+- **Import story types from the framework package** `@storybook/react-vite` (not
+  `@storybook/react` — the `storybook/no-renderer-packages` lint rule enforces this).
+- **Provider-free components** (most presentational ones — `Button`, `Chip`, `LoadingIcon`,
+  `Typography`, `FormattedDecimalNumber`) need no decorator.
+- **Components that read `BreadUIKitProvider` or wallet state** must be wrapped in providers
+  inside the story:
+  - For a **connected wallet** view (e.g. the Navbar account widget, `useConnectedUser`,
+    `useBreadBalance`) use the ready-made decorator
+    [`.storybook/mock-wallet.tsx`](./.storybook/mock-wallet.tsx) — `MockWalletProviders`
+    (component) or `withMockWallet` (decorator).
+  - For **signed-out** flows, a lighter Wagmi + Query + RainbowKit + `BreadUIKitProvider`
+    wrapper is enough — see `auth/LoginButton.stories.tsx`.
+- **Never put story/test-only helpers under `src/`.** `tsup` only excludes `*.stories` /
+  `*.test`, so a shared helper inside `src/` would ship to consumers. Keep shared story
+  utilities in `.storybook/` (as the mock-wallet decorator does).
 
 ## Conventions (follow the existing code)
 

@@ -64,20 +64,24 @@ The test: Every changed line should trace directly to the user's request.
 
 **Define success criteria. Loop until verified.**
 
-This repo has **no automated test suite**, so verification means the gates in
+This repo has **no automated unit-test suite**, so for a component, **testing means writing
+or updating its Storybook story and confirming it renders.** Follow the steps in
 [AGENTS.md](./AGENTS.md#verification--how-to-check-your-work):
 
-- `npm run lint` clean, `npm run type-check` passes, `npm run build` succeeds.
-- For any visual/behavioral change, view it in **Storybook** (`npm run storybook`) and add
-  or update the component's `*.stories.tsx`. For integration concerns, link the package into
-  a consumer app and check it there.
+- **Every component you fix or create needs a `*.stories.tsx`** — a new variant for a bug fix,
+  full coverage for a new component. Wallet/context-dependent components use provider
+  decorators (`.storybook/mock-wallet.tsx` for the connected state).
+- `npm run lint`, `npm run type-check`, and `npm run build-storybook` must all pass, then
+  view the result in `npm run storybook`.
 
 Transform tasks into verifiable goals:
 
-- "Add a variant" → "Define the variant; confirm it renders in Storybook and types compile."
-- "Fix the bug" → "Reproduce it in a story, fix it, confirm the repro no longer triggers."
-- "Refactor X" → "Confirm lint + type-check + build pass and the public API is unchanged
-  (or the change is intentionally versioned)."
+- "Add a variant" → "Define the variant; add a story that renders it; confirm build-storybook
+  compiles and the story looks right."
+- "Fix the bug" → "Add a story variant that reproduces it, fix it, confirm the story now
+  renders correctly."
+- "Refactor X" → "Confirm lint + type-check + build-storybook pass and the public API is
+  unchanged (or the change is intentionally versioned)."
 
 For multi-step tasks, state a brief plan:
 

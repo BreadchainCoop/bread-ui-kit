@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable storybook/no-redundant-story-name */
 // src/components/LiftedButton/LiftedButton.stories.ts
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { ArrowUpRight, SignOut, Skull, MagicWand } from "@phosphor-icons/react";
 
