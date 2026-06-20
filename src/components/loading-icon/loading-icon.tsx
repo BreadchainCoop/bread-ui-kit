@@ -1,5 +1,5 @@
-import { App } from "../interface/app";
-import { cn } from "../utils";
+import { App } from "../../interface/app";
+import { cn } from "../../utils";
 
 export function LoadingIcon({
 	app,

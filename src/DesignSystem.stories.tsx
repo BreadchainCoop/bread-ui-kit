@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import LiftedButton from "./components/LiftedButton/LiftedButton";
 import {
   Heading1,
@@ -111,7 +111,7 @@ export const ComponentShowcase: Story = {
 
           <div>
             <Body>
-              This is body text using the Bread Body font. It's designed for
+              This is body text using the Bread Body font. It&apos;s designed for
               optimal readability in longer content blocks. The font provides
               excellent legibility across different screen sizes and devices.
             </Body>
