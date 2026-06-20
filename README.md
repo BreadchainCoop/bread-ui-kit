@@ -30,7 +30,7 @@ Preview the available typography and components on the [Storybook Demo](http://b
 
 3. **Use components** in your React app:
    ```tsx
-   import { LiftedButton, Heading1, Body } from "@breadcoop/ui";
+   import { Button, Heading1, Body } from "@breadcoop/ui";
    import "./globals.css"; // Make sure to import your CSS file i.e. in layout.ts
    ```
 
@@ -46,7 +46,7 @@ Preview the available typography and components on the [Storybook Demo](http://b
 
 ```tsx
 import React from "react";
-import { LiftedButton, Heading1, Body } from "@breadcoop/ui";
+import { Button, Heading1, Body } from "@breadcoop/ui";
 import "./globals.css";
 
 function App() {
@@ -54,9 +54,7 @@ function App() {
     <div>
       <Heading1>Welcome to Bread Coop</Heading1>
       <Body>This text uses our brand typography.</Body>
-      <LiftedButton preset="primary" onClick={() => console.log("Clicked!")}>
-        Click me
-      </LiftedButton>
+      <Button onClick={() => console.log("Clicked!")}>Click me</Button>
 
       {/* Tailwind classes available in imported theme can be used */}
       <div className="bg-primary-orange text-white p-4 rounded-md">
@@ -68,6 +66,11 @@ function App() {
 ```
 
 ## Components
+
+The sections below cover the most common components. For a one-line index of **everything**
+the package exports — components, providers, hooks, utils, and types — see
+[docs/COMPONENTS.md](./docs/COMPONENTS.md), or browse the
+[Storybook demo](http://breadcoopstorybook.netlify.app/).
 
 ### Typography
 
@@ -106,80 +109,88 @@ import { Heading1, Heading2, Heading3, Body, Caption } from "@breadcoop/ui";
 | Body                | `className?: string`                                                   | Additional CSS classes          |
 | Body                | `bold?: boolean`                                                       | Make text bold (default: false) |
 
-### LiftedButton
+### Button
+
+The primary, app-themed button. It is polymorphic (`as`), brand-aware (`app`), and
+supports left/right icons and a loading state.
 
 ```tsx
-import { LiftedButton } from "@breadcoop/ui";
+import { Button } from "@breadcoop/ui";
 
-<Typography variant="h1">Main Heading</Typography>
-<Typography variant="h2">Section Heading</Typography>
-<Typography variant="body">Body text content</Typography>
-<Typography variant="caption">Small caption text</Typography>
+<Button>Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="light">Cancel</Button>
 ```
 
 #### Props
 
-| Prop           | Type                                                                | Default   | Description                         |
-| -------------- | ------------------------------------------------------------------- | --------- | ----------------------------------- |
-| children       | React.ReactNode                                                     | -         | The content of the button           |
-| preset         | 'primary' \| 'secondary' \| 'destructive' \| 'positive' \| 'stroke' | 'primary' | The preset style of the button      |
-| leftIcon       | React.ReactNode                                                     | -         | Icon to display on the left side    |
-| rightIcon      | React.ReactNode                                                     | -         | Icon to display on the right side   |
-| disabled       | boolean                                                             | false     | Whether the button is disabled      |
-| colorOverrides | Partial<LiftedButtonColors>                                         | {}        | Override specific colors            |
-| offsetPx       | number                                                              | 4         | Pixel offset for the lifted effect  |
-| durationMs     | number                                                              | 300       | Transition duration in milliseconds |
-| width          | 'full' \| 'auto' \| 'mobile-full'                                   | 'auto'    | Button width behavior               |
-| scrollTo       | string                                                              | -         | Element ID to scroll to on click    |
-| className      | string                                                              | ''        | Additional CSS classes              |
-| type           | 'button' \| 'submit' \| 'reset'                                     | 'button'  | Button type                         |
-| onClick        | () => void                                                          | -         | Click handler                       |
+| Prop                    | Type                                                                         | Default   | Description                                           |
+| ----------------------- | ---------------------------------------------------------------------------- | --------- | ----------------------------------------------------- |
+| children                | React.ReactNode                                                              | -         | The content of the button                             |
+| app                     | 'fund' \| 'stacks' \| 'net'                                                  | 'fund'    | Brand theme: fund = orange, stacks = blue, net = jade |
+| variant                 | 'primary' \| 'secondary' \| 'destructive' \| 'positive' \| 'light' \| 'burn' | 'primary' | Visual style                                          |
+| size                    | 'sm' \| 'default' \| 'icon'                                                  | 'default' | Padding / sizing (`icon` is square)                   |
+| leftIcon                | React.ReactNode                                                              | -         | Icon rendered before the children                     |
+| rightIcon               | React.ReactNode                                                              | -         | Icon rendered after the children                      |
+| isLoading               | boolean                                                                      | false     | Show a loading spinner and disable the button         |
+| showChildrenWhenLoading | boolean                                                                      | false     | Keep the children visible while loading               |
+| withBorder              | boolean                                                                      | false     | Add a `surface-ink` border (non-`light` variants)     |
+| as                      | ElementType                                                                  | 'button'  | Render as another element/component (e.g. `'a'`)      |
+| disabled                | boolean                                                                      | false     | Whether the button is disabled                        |
+| className               | string                                                                       | -         | Additional CSS classes (merged with `cn`)             |
 
-#### Presets
+Any other props are forwarded to the underlying element, so native attributes like
+`onClick`, `type`, and `href` (with `as="a"`) work as expected.
 
-- **primary**: Orange background with white text
-- **secondary**: Light orange background with orange text
-- **stroke**: White background with dark text and border
+#### Variants
+
+- **primary**: solid brand color (orange / blue / jade depending on `app`).
+- **secondary**: lighter tinted background with brand-colored text.
+- **light**: paper background with dark ink text and a border.
+- **destructive**: red — for irreversible/dangerous actions.
+- **positive**: green — for confirming/successful actions.
+- **burn**: red-tinted background with red text.
 
 #### Examples
 
 ```tsx
-import { LiftedButton } from "@breadcoop/ui";
+import { Button } from "@breadcoop/ui";
 import { ArrowUpRight, SignOut } from "@phosphor-icons/react";
 
 // Basic usage
-<LiftedButton>Click me</LiftedButton>
+<Button>Click me</Button>
 
-// With presets
-<LiftedButton preset="primary">Primary Button</LiftedButton>
-<LiftedButton preset="secondary">Secondary Button</LiftedButton>
-<LiftedButton preset="stroke">Cancel</LiftedButton>
+// Variants
+<Button variant="primary">Primary Button</Button>
+<Button variant="secondary">Secondary Button</Button>
+<Button variant="light">Cancel</Button>
+<Button variant="destructive">Delete</Button>
+
+// App theme (orange / blue / jade)
+<Button app="stacks">Stacks Button</Button>
+
+// Sizes
+<Button size="sm">Small</Button>
+<Button size="icon" aria-label="Open"><ArrowUpRight /></Button>
 
 // With icons
-<LiftedButton leftIcon={<ArrowUpRight />}>External Link</LiftedButton>
-<LiftedButton rightIcon={<SignOut />}>Sign Out</LiftedButton>
+<Button leftIcon={<ArrowUpRight />}>External Link</Button>
+<Button rightIcon={<SignOut />}>Sign Out</Button>
 
-// Full width
-<LiftedButton width="full">Full Width Button</LiftedButton>
+// Loading state
+<Button isLoading>Saving…</Button>
+<Button isLoading showChildrenWhenLoading>Saving…</Button>
 
-// Mobile full width (full on mobile, auto on desktop)
-<LiftedButton width="mobile-full">Responsive Button</LiftedButton>
-
-// Custom offset and duration
-<LiftedButton offsetPx={8} durationMs={500}>
-  Custom Animation
-</LiftedButton>
-
-// Scroll to element
-<LiftedButton scrollTo="contact-section">
-  Contact Us
-</LiftedButton>
+// Render as a link
+<Button as="a" href="https://breadchain.xyz" target="_blank">
+  Visit site
+</Button>
 
 // Disabled state
-<LiftedButton disabled>Disabled Button</LiftedButton>
+<Button disabled>Disabled Button</Button>
 ```
 
-#### Logo Component
+### Logo
 
 ```tsx
 import { Logo } from '@breadcoop/ui';
