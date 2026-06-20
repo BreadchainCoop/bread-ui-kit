@@ -67,17 +67,6 @@ export function colorsToStyleVars(c: LiftedButtonColors): React.CSSProperties {
   };
 }
 
-/* Looks for CSS variables and wraps them with var() if found */
-function asCssValue(v: string): string {
-  if (!v) return "";
-  // If it already contains var() with fallback, return as-is
-  if (v.includes("var(")) return v;
-  // If it starts with --, wrap with var()
-  if (v.startsWith("--")) return `var(${v})`;
-  // Otherwise return the value directly
-  return v;
-}
-
 /* Maps CSS variables to their fallback values */
 const CSS_VAR_FALLBACKS: Record<string, string> = {
   "--color-primary-orange": "#ea6023",
