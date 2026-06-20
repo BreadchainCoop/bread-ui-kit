@@ -1,5 +1,7 @@
-export const copyToClipboard = async (text: string, message = "copied") => {
+export const copyToClipboard = async (text: string) => {
 	try {
 		await navigator.clipboard.writeText(text);
-	} catch {}
+	} catch {
+		// clipboard unavailable / permission denied — ignore
+	}
 };
