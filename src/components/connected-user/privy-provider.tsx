@@ -16,52 +16,67 @@ export function ConnectedUserProviderPrivy({
   chainId,
   children,
 }: IConnectedUserProviderPrivyProps) {
-  const { ready, authenticated } = usePrivy();
+  const { ready, authenticated, user: privyUser } = usePrivy();
   const { wallets } = useWallets();
   const configuredChains = useChains();
+
+  const accountAddress = privyUser?.wallet?.address;
+
+  const connectedWallet = useMemo(
+		() =>
+			accountAddress
+				? wallets.find(
+						(w) =>
+							w.address.toLowerCase() ===
+							accountAddress.toLowerCase(),
+					)
+				: undefined,
+		[wallets, accountAddress],
+  );
 
   const defaultChain = useMemo(
     () => configuredChains.find(c => c.id === chainId) ?? configuredChains[0],
     [configuredChains, chainId]
   );
 
-  const embeddedWallet = useMemo(() => {
-    return wallets.find(
-      (wallet) =>
-        wallet.walletClientType === "privy" ||
-        wallet.walletClientType === "embedded_wallet" ||
-        wallet.walletClientType?.includes("embedded")
-    );
-  }, [wallets]);
-
   const user = useMemo<TConnectedUserState>(() => {
-    if (!ready) return { status: "LOADING" };
+		if (!ready) return { status: "LOADING" };
 
-    if (!authenticated || !embeddedWallet?.address) {
-      return { status: "NOT_CONNECTED" };
-    }
+		if (!authenticated || !accountAddress) {
+			return { status: "NOT_CONNECTED" };
+		}
 
-    const address = embeddedWallet.address as Hex;
-    const walletChainId = embeddedWallet.chainId;
-    const parsedChainId = walletChainId ? parseInt(walletChainId.split(":")[1]) : undefined;
+		const address = accountAddress as Hex;
+		const walletChainId = connectedWallet?.chainId;
+		const parsedChainId = walletChainId
+			? parseInt(walletChainId.split(":")[1])
+			: undefined;
 
-    const _status: TUserConnected["status"] =
-      parsedChainId === chainId ? "CONNECTED" : "UNSUPPORTED_CHAIN";
+		const _status: TUserConnected["status"] =
+			parsedChainId === chainId ? "CONNECTED" : "UNSUPPORTED_CHAIN";
 
-    const chain =
-      configuredChains.find(c => c.id === parsedChainId) ?? defaultChain;
+		const chain =
+			configuredChains.find((c) => c.id === parsedChainId) ??
+			defaultChain;
 
-    return {
-      status: _status,
-      address,
-      chain,
-    };
-  }, [ready, authenticated, embeddedWallet, chainId, configuredChains, defaultChain]);
+		return {
+			status: _status,
+			address,
+			chain,
+		};
+  }, [
+		ready,
+		authenticated,
+		accountAddress,
+		connectedWallet,
+		chainId,
+		configuredChains,
+		defaultChain,
+  ]);
 
-  // Embedded wallets are never Safe wallets
   const isSafe = useMemo(() => {
-    return embeddedWallet?.walletClientType === "safe" || false;
-  }, [embeddedWallet]);
+		return connectedWallet?.walletClientType === "safe" || false;
+  }, [connectedWallet]);
 
   const value = useMemo(() => ({ user, isSafe }), [user, isSafe]);
 
