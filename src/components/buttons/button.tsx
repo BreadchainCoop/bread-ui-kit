@@ -92,7 +92,7 @@ const Button = <E extends ElementType = "button">({
 					? "cursor-pointer"
 					: "",
 				getBaseClassName(app, variant),
-				"flex items-center justify-center gap-2 active:shadow-none disabled:shadow-none disabled:bg-surface-grey disabled:cursor-not-allowed",
+				"flex items-center justify-center gap-2 active:shadow-[0px_0px_0px_0px_#595959] disabled:shadow-none disabled:bg-surface-grey disabled:cursor-not-allowed",
 				"transition-all duration-200 border disabled:border-transparent",
 				variant !== "light" && withBorder && "border-surface-ink",
 				variant !== "light" && !withBorder && "border-transparent",
@@ -102,8 +102,8 @@ const Button = <E extends ElementType = "button">({
 						? "py-1 px-4"
 						: "py-4 px-8",
 				size === "sm"
-					? "shadow-[0.125rem_0.125rem_0px_0px_#595959]"
-					: "shadow-[0.25rem_0.25rem_0px_0px_#595959]",
+					? "shadow-[0.125rem_0.125rem_0px_0px_#595959] active:translate-x-0.5 active:translate-y-0.5"
+					: "shadow-[0.25rem_0.25rem_0px_0px_#595959] active:translate-x-1 active:translate-y-1",
 				className,
 			)}
 			disabled={disabled || isLoading}
