@@ -72,7 +72,7 @@ export function Navbar({
 				footer={
 					<>
 						<NavSolidarityApps
-							showTitle
+							collapsible
 							showSelected
 							rearranged
 							current={app}
