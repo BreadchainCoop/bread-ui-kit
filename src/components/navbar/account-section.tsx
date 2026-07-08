@@ -1,10 +1,10 @@
 "use client";
 
 import { useAccount, useEnsName } from "wagmi";
-import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { usePrivy } from "@privy-io/react-auth";
 import { App } from "../../interface/app";
 import { LoginButton } from "../auth";
-import { useConnectedUser } from "../connected-user";
+import { TUserConnected, useConnectedUser } from "../connected-user";
 import AccountMenu from "./account-menu";
 import { SignInIcon } from "@phosphor-icons/react/dist/ssr";
 import { NavAccountDetailsProps } from "./account-widget";
@@ -32,20 +32,14 @@ const AccountSection = ({ app, widgetItems, actionItems }: AccountSectionProps) 
 
 	// Privy hooks
 	const { ready: privyReady } = usePrivy();
-	const { wallets } = useWallets();
 
 	// Determine which address and ENS to use
 	const { address, ensNameResult } = useMemo(() => {
 		if (authProvider === "privy") {
-			const activeWallet = wallets.find(
-				(wallet) =>
-					wallet.walletClientType === "privy" ||
-					wallet.walletClientType === "embedded_wallet" ||
-					wallet.walletClientType?.includes("embedded"),
-			);
+			const connectedUser = user as TUserConnected;
 
 			return {
-				address: activeWallet?.address as Address | undefined,
+				address: connectedUser?.address as Address | undefined,
 				ensNameResult: {
 					data: undefined,
 					isLoading: !privyReady,
@@ -59,7 +53,7 @@ const AccountSection = ({ app, widgetItems, actionItems }: AccountSectionProps) 
 			address: wagmiAddress,
 			ensNameResult: wagmiEnsName,
 		};
-	}, [authProvider, wallets, privyReady, wagmiAddress, wagmiEnsName]);
+	}, [authProvider, user, privyReady, wagmiAddress, wagmiEnsName]);
 
 	if (user.status === "CONNECTED" && address) {
 		return (
