@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import React, { AnchorHTMLAttributes } from "react";
+import React, { AnchorHTMLAttributes, ReactNode } from "react";
 import { createConfig, http, WagmiProvider } from "wagmi";
 import { gnosis, mainnet } from "wagmi/chains";
 import { injected } from "wagmi/connectors";
@@ -8,11 +8,17 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { erc20Abi } from "viem";
+import { HandCoinsIcon } from "@phosphor-icons/react";
 
 import { Navbar } from "./navbar";
 import { BreadUIKitProvider } from "../../context/lib";
 import { ConnectedUserProvider } from "../connected-user";
+import { ConnectedUserContext } from "../connected-user/context";
 import { Body } from "../typography/Typography";
+import Button from "../buttons/button";
+import NavAccountDetails from "./account-widget";
+import NavAccountWidgetItem from "./account-widget-item";
+import { NavSolidarityApps } from "./solidarity-apps";
 import type { App } from "../../interface/app";
 import { MockWalletProviders } from "../../../.storybook/mock-wallet";
 
@@ -148,5 +154,96 @@ export const Connected: Story = {
         </Navbar>
       </div>
     </MockWalletProviders>
+  ),
+};
+
+const DEMO_ADDRESS = "0x66376C8DBfb95533FBd7C34c8C8b2ecCc3d5C6637" as const;
+
+/**
+ * Providers for the mobile account widget stories below: shares this file's wagmi /
+ * query-client / token config, but forces a CONNECTED user directly via
+ * `ConnectedUserContext` (skipping wallet connection) so the connected states render.
+ * Privy is stubbed via a Vite alias (see .storybook/main.ts), so no `<PrivyProvider>`
+ * is needed here.
+ */
+const MobileProviders = ({ children }: { children: ReactNode }) => (
+  <WagmiProvider config={wagmiConfig}>
+    <QueryClientProvider client={queryClient}>
+      <BreadUIKitProvider
+        chainId={gnosis.id}
+        tokenConfig={tokenConfig}
+        app="stacks"
+        authProvider="general"
+      >
+        <ConnectedUserContext.Provider
+          value={{
+            user: {
+              status: "CONNECTED",
+              address: DEMO_ADDRESS,
+              chain: gnosis,
+            },
+            isSafe: false,
+          }}
+        >
+          <div className="w-[375px] bg-paper-main p-6">{children}</div>
+        </ConnectedUserContext.Provider>
+      </BreadUIKitProvider>
+    </QueryClientProvider>
+  </WagmiProvider>
+);
+
+/**
+ * The full account card shown inline in the mobile menu when connected — address (copy +
+ * explorer), balance, the app-injected Claim widget and Deposit / Withdraw actions, and
+ * sign out.
+ */
+export const MobileAccountCard: Story = {
+  render: () => (
+    <MobileProviders>
+      <NavAccountDetails
+        className="bg-paper-main border border-surface-ink"
+        userAddress={DEMO_ADDRESS}
+        ensNameResult={{
+          data: undefined,
+          isLoading: false,
+          isError: false,
+        }}
+        app="stacks"
+        widgetItems={
+          <NavAccountWidgetItem
+            I={HandCoinsIcon}
+            appIconColor="text-primary-blue"
+            label="Claimable"
+          >
+            <Body className="font-bold text-system-green">1,000.00</Body>
+            <Button app="stacks" variant="secondary" size="sm">
+              Claim
+            </Button>
+          </NavAccountWidgetItem>
+        }
+        actionItems={
+          <div className="flex gap-2">
+            <Button app="stacks" size="sm" className="flex-1">
+              Deposit
+            </Button>
+            <Button app="stacks" variant="secondary" size="sm" className="flex-1">
+              Withdraw
+            </Button>
+          </div>
+        }
+      />
+    </MobileProviders>
+  ),
+};
+
+/**
+ * The "Solidarity apps" section as it appears in the mobile menu: a dropdown collapsed by
+ * default that expands vertically on tap. No wallet context required.
+ */
+export const SolidarityAppsMobile: Story = {
+  render: () => (
+    <div className="w-[375px] bg-paper-main p-6">
+      <NavSolidarityApps collapsible showSelected rearranged current="stacks" />
+    </div>
   ),
 };
