@@ -18,6 +18,7 @@ import { Body } from "../typography/Typography";
 import Button from "../buttons/button";
 import NavAccountDetails from "./account-widget";
 import NavAccountWidgetItem from "./account-widget-item";
+import AccountCardMobile from "./account-card-mobile";
 import { NavSolidarityApps } from "./solidarity-apps";
 import type { App } from "../../interface/app";
 import { MockWalletProviders } from "../../../.storybook/mock-wallet";
@@ -231,6 +232,26 @@ export const MobileAccountCard: Story = {
             </Button>
           </div>
         }
+      />
+    </MobileProviders>
+  ),
+};
+
+/**
+ * The connected account card at the top of the mobile menu, matching Bread DS V1.1
+ * (node 727-3622): address row (copy + explorer), balance, Deposit / Withdraw, and the
+ * claim row. The app passes only handlers and the claimable amount. Sign out lives at the
+ * bottom of the menu, not in this card.
+ */
+export const MobileAccountCardExact: Story = {
+  render: () => (
+    <MobileProviders>
+      <AccountCardMobile
+        userAddress={DEMO_ADDRESS}
+        app="stacks"
+        onDeposit={() => {}}
+        onWithdraw={() => {}}
+        claimable={{ amount: "1,000.00", onClaim: () => {} }}
       />
     </MobileProviders>
   ),
