@@ -40,9 +40,7 @@ const AccountMenu = ({
 	const avatar = blo(userAddress as `0x${string}`);
 
 	return (
-		<>
-			{/* Desktop: compact balance chip + avatar that opens a dropdown */}
-			<NavigationMenu.Root className="relative hidden md:block">
+		<NavigationMenu.Root className="relative hidden md:block">
 			<NavigationMenu.List>
 				<NavigationMenu.Item>
 					{/* New account widget — balance chip · deposit · avatar · address */}
@@ -66,7 +64,6 @@ const AccountMenu = ({
 
 						{/* Account trigger — opens the dropdown */}
 						<NavigationMenu.Trigger className="group flex items-center gap-2.5">
-							{/* eslint-disable-next-line @next/next/no-img-element */}
 							<img
 								src={avatar}
 								alt=""
@@ -100,18 +97,7 @@ const AccountMenu = ({
 				</NavigationMenu.Item>
 			</NavigationMenu.List>
 			<NavigationMenu.Viewport className="nav-account-menu absolute top-14 right-0 z-20 left-0 md:left-auto" />
-			</NavigationMenu.Root>
-
-			{/* Mobile: full account card rendered inline in the menu */}
-			<NavAccountDetails
-				className="md:hidden bg-paper-main border border-surface-ink"
-				userAddress={userAddress}
-				ensNameResult={ensNameResult}
-				app={app}
-				widgetItems={widgetItems}
-				actionItems={actionItems}
-			/>
-		</>
+		</NavigationMenu.Root>
 	);
 };
 

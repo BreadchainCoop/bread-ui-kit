@@ -5,7 +5,6 @@ import { blo } from "blo";
 import clsx from "clsx";
 import { ReactNode } from "react";
 import { Address } from "viem";
-import { App } from "../../interface/app";
 import { useBreadBalance } from "../../hooks/use-bread-balance";
 import { useConnectedUser } from "../connected-user";
 import { truncateAddress } from "../../utils/truncate-address";
@@ -15,7 +14,6 @@ import { Logo } from "../Logo";
 export interface AccountCardMobileProps {
 	userAddress: Address;
 	ensName?: string;
-	app: App;
 	/** Wallet deposit / fund flow (opens the app's fund modal). */
 	onDeposit?: () => void;
 	/** Wallet withdraw flow. */
@@ -64,7 +62,6 @@ const CardButton = ({
 const AccountCardMobile = ({
 	userAddress,
 	ensName,
-	app,
 	onDeposit,
 	onWithdraw,
 	claimable,
@@ -90,8 +87,7 @@ const AccountCardMobile = ({
 		>
 			{/* Address row */}
 			<div className="flex items-center justify-center gap-4 border-b-[1.8px] border-surface-grey py-2">
-				{/* eslint-disable-next-line @next/next/no-img-element */}
-				<img
+					<img
 					src={avatar}
 					alt=""
 					className="size-6 shrink-0 rounded-full"

@@ -248,7 +248,6 @@ export const MobileAccountCardExact: Story = {
     <MobileProviders>
       <AccountCardMobile
         userAddress={DEMO_ADDRESS}
-        app="stacks"
         onDeposit={() => {}}
         onWithdraw={() => {}}
         claimable={{ amount: "1,000.00", onClaim: () => {} }}
