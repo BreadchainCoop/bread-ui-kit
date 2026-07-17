@@ -19,6 +19,7 @@ import Button from "../buttons/button";
 import NavAccountDetails from "./account-widget";
 import NavAccountWidgetItem from "./account-widget-item";
 import AccountCardMobile from "./account-card-mobile";
+import { NavDepositButton } from "./nav-deposit-button";
 import { NavSolidarityApps } from "./solidarity-apps";
 import type { App } from "../../interface/app";
 import { MockWalletProviders } from "../../../.storybook/mock-wallet";
@@ -142,15 +143,20 @@ export const Stacks: Story = { args: { app: "stacks" } };
 export const SafetyNet: Story = { args: { app: "net" } };
 
 /**
- * Connected state using the mock-wallet decorator: the account section shows the account
- * menu instead of the Sign In button. Open it to see the account widget (address, balance,
- * network, sign out). On-chain reads use a fake address, so the balance shows `0.00`.
+ * Connected state using the mock-wallet decorator: the account section shows the new
+ * account widget — balance chip, the app-injected **Deposit** action (`depositSlot`),
+ * avatar, and address with the dropdown. On-chain reads use a fake address, so the balance
+ * shows `0.00`.
  */
 export const Connected: Story = {
   render: ({ app }) => (
     <MockWalletProviders app={app}>
       <div className="px-6 bg-paper-main min-h-[60vh] text-black">
-        <Navbar app={app} Link={Link}>
+        <Navbar
+          app={app}
+          Link={Link}
+          depositSlot={<NavDepositButton app={app} onClick={() => {}} />}
+        >
           <NavLinks />
         </Navbar>
       </div>
