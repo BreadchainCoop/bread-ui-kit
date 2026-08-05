@@ -1,0 +1,140 @@
+name: Release
+
+# Publishes @breadcoop/ui to npm when the version in package.json changes on main.
+# Keeps the convention from CONTRIBUTING.md: you bump `version` inside the PR, and
+# merging that PR is what ships the release.
+
+on:
+  push:
+    branches: [main]
+    paths: ["package.json"]
+  workflow_dispatch: # manual re-run, e.g. if a publish half-failed
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.check.outputs.version }}
+      should-publish: ${{ steps.check.outputs.should-publish }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: check
+        name: Compare package.json version against the registry
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          # Empty output means this exact version is not on npm yet.
+          PUBLISHED=$(npm view "$NAME@$VERSION" version 2>/dev/null || true)
+
+          if [ -z "$PUBLISHED" ]; then
+            echo "should-publish=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::$NAME@$VERSION is not on npm — releasing."
+          else
+            echo "should-publish=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::$NAME@$VERSION is already published — nothing to do."
+          fi
+
+      # A tag can exist on origin for a version npm never received (this repo had a
+      # stale v3.0.0 from an abandoned major). Without this, the publish would
+      # succeed and then the tag push would fail, leaving a red run and a shipped
+      # package. Fail here instead, while nothing is irreversible.
+      - name: Ensure the tag is free
+        if: steps.check.outputs.should-publish == 'true'
+        run: |
+          VERSION="${{ steps.check.outputs.version }}"
+          if git ls-remote --exit-code --tags origin "refs/tags/v$VERSION" >/dev/null 2>&1; then
+            echo "::error::Tag v$VERSION already exists on origin but $VERSION is not on npm. Resolve the stale tag before releasing."
+            exit 1
+          fi
+
+  publish:
+    name: Build and publish
+    needs: check
+    if: needs.check.outputs.should-publish == 'true'
+    runs-on: ubuntu-latest # trusted publishing does not support self-hosted runners
+
+    permissions:
+      contents: write # push the tag and create the GitHub release
+      id-token: write # mint the OIDC token npm exchanges for publish rights
+
+    # If you register an environment name with the trusted publisher on npmjs.com,
+    # uncomment this and make the names match exactly. It also lets you require a
+    # human approval before anything reaches npm.
+    # environment: release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+          cache: npm
+
+      # setup-node ships an npm that predates OIDC support; trusted publishing
+      # needs >= 11.5.1.
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
+      - name: Install
+        run: npm ci
+
+      # The gates CONTRIBUTING.md asks for. There is no test suite, so these are
+      # the whole safety net. (`npm test` is intentionally not run — the script
+      # points at jest, which is not in devDependencies.)
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify the build output
+        run: |
+          test -f dist/index.mjs
+          test -f dist/index.d.mts
+          test -f dist/theme.css
+          test -f dist/fonts.css
+          test -d dist/fonts
+          test -f tailwind-preset.js
+
+          # ESM-only + RSC: "use client" must survive into dist/.
+          if ! grep -rq '"use client"' dist; then
+            echo "::error::No \"use client\" directives found in dist/ — the RSC build is broken."
+            exit 1
+          fi
+
+      - name: Show what will ship
+        run: npm pack --dry-run
+
+      # No NODE_AUTH_TOKEN: auth comes from the OIDC token via the trusted
+      # publisher configured on npmjs.com.
+      - name: Publish
+        run: npm publish --access public --provenance
+
+      - name: Tag the release
+        run: |
+          VERSION="${{ needs.check.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "v$VERSION" -m "v$VERSION"
+          git push origin "v$VERSION"
+
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ needs.check.outputs.version }}"
+          gh release create "v$VERSION" \
+            --title "v$VERSION" \
+            --generate-notes
