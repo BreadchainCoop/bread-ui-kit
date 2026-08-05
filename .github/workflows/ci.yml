@@ -1,0 +1,51 @@
+name: CI
+
+# Runs the checks CONTRIBUTING.md lists as required, so a PR can't merge with a
+# broken build. Also tells you, before merge, whether the release workflow will
+# fire — i.e. whether you remembered to bump the version.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Lint, types, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Build
+        run: npm run build
+
+      # The same file list you'd get from `npm publish --dry-run`, without the
+      # risk of a stray publish. Read it on any PR that touches exports, `files`,
+      # or the copy-files script.
+      - name: Package contents
+        run: npm pack --dry-run
+
+      - name: Release preview
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          PUBLISHED=$(npm view "$NAME@$VERSION" version 2>/dev/null || true)
+
+          if [ -z "$PUBLISHED" ]; then
+            echo "::notice::Merging this will publish $NAME@$VERSION."
+          else
+            echo "::notice::$VERSION is already on npm. If this PR is user-facing, bump the version before merging."
+          fi
