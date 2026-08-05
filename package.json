@@ -13,7 +13,7 @@
     },
     "./tailwind-preset": "./tailwind-preset.js",
     "./theme": "./dist/theme.css",
-    "./fonts": "./dist/fonts.css",
+    "./fonts": "./dist/fonts/fonts.css",
     "./package.json": "./package.json"
   },
   "files": [

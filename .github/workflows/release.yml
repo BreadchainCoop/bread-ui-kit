@@ -104,7 +104,7 @@ jobs:
           test -f dist/index.mjs
           test -f dist/index.d.mts
           test -f dist/theme.css
-          test -f dist/fonts.css
+          test -f dist/fonts/fonts.css
           test -d dist/fonts
           test -f tailwind-preset.js
 
