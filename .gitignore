@@ -89,3 +89,6 @@ jspm_packages/
 
 *storybook.log
 storybook-static
+
+# Claude
+~/.claude-personal
