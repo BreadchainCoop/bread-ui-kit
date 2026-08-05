@@ -6,18 +6,24 @@ import {
 	XLogoIcon,
 	EnvelopeSimpleIcon,
 	ArrowUpRightIcon,
+	ParagraphIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import { LINKS } from "../../constansts/links";
 import { Body } from "../typography/Typography";
 import { Logo } from "../Logo";
 import { SOLIDARITY_TOOLS } from "../../constansts/tools";
 import { ReactNode } from "react";
+import { BlueskyIcon } from "./bluesky";
+
 
 function SocialIcons({ className = "" }: { className?: string }) {
 	return (
 		<div
 			className={`flex items-center justify-center md:justify-start gap-5 pb-6 md:pb-0 ${className}`}
 		>
+			<a href={LINKS.bluesky} className="block">
+				<BlueskyIcon className="w-6 h-6 text-surface-ink" />
+			</a>
 			<a href={LINKS.youtube} className="block">
 				<YoutubeLogoIcon className="w-6 h-6 text-surface-ink" />
 			</a>
@@ -47,6 +53,9 @@ function SocialIcons({ className = "" }: { className?: string }) {
 					height={24}
 					className="p-0.75 w-5 h-5 text-surface-ink"
 				/>
+			</a>
+			<a href={LINKS.newsletter} className="block">
+				<ParagraphIcon className="w-6 h-6 text-surface-ink" />
 			</a>
 			<a href={LINKS.farcaster} className="block">
 				<img
