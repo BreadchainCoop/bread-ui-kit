@@ -1,4 +1,5 @@
 export const LINKS = {
+	bluesky: "https://bsky.app/profile/breadcoop.bsky.social",
 	contributorForm:
 		"https://docs.google.com/forms/d/e/1FAIpQLSfOWubPChHH14LpV4GwgXrrot0Smqd1rmypN4MEULdw7n1o4g/viewform",
 	dashboard: "https://dune.com/bread_cooperative/solidarity",
