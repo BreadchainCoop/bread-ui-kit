@@ -23,59 +23,56 @@ export function ConnectedUserProviderPrivy({
   const accountAddress = privyUser?.wallet?.address;
 
   const connectedWallet = useMemo(
-		() =>
-			accountAddress
-				? wallets.find(
-						(w) =>
-							w.address.toLowerCase() ===
-							accountAddress.toLowerCase(),
-					)
-				: undefined,
-		[wallets, accountAddress],
+    () =>
+      accountAddress
+        ? wallets.find(
+            (w) => w.address.toLowerCase() === accountAddress.toLowerCase(),
+          )
+        : undefined,
+    [wallets, accountAddress],
   );
 
   const defaultChain = useMemo(
-    () => configuredChains.find(c => c.id === chainId) ?? configuredChains[0],
-    [configuredChains, chainId]
+    () => configuredChains.find((c) => c.id === chainId) ?? configuredChains[0],
+    [configuredChains, chainId],
   );
 
   const user = useMemo<TConnectedUserState>(() => {
-		if (!ready) return { status: "LOADING" };
+    if (!ready) return { status: "LOADING" };
 
-		if (!authenticated || !accountAddress) {
-			return { status: "NOT_CONNECTED" };
-		}
+    if (!authenticated || !accountAddress) {
+      return { status: "NOT_CONNECTED" };
+    }
 
-		const address = accountAddress as Hex;
-		const walletChainId = connectedWallet?.chainId;
-		const parsedChainId = walletChainId
-			? parseInt(walletChainId.split(":")[1])
-			: undefined;
+    const address = accountAddress as Hex;
+    const walletChainId = connectedWallet?.chainId;
+    const parsedChainId = walletChainId
+      ? parseInt(walletChainId.split(":")[1])
+      : undefined;
 
-		const _status: TUserConnected["status"] =
-			parsedChainId === chainId ? "CONNECTED" : "UNSUPPORTED_CHAIN";
+    const _status: TUserConnected["status"] =
+      parsedChainId === chainId ? "CONNECTED" : "UNSUPPORTED_CHAIN";
 
-		const chain =
-			configuredChains.find((c) => c.id === parsedChainId) ??
-			defaultChain;
+    const chain =
+      configuredChains.find((c) => c.id === parsedChainId) ?? defaultChain;
 
-		return {
-			status: _status,
-			address,
-			chain,
-		};
+    return {
+      status: _status,
+      address,
+      chain,
+    };
   }, [
-		ready,
-		authenticated,
-		accountAddress,
-		connectedWallet,
-		chainId,
-		configuredChains,
-		defaultChain,
+    ready,
+    authenticated,
+    accountAddress,
+    connectedWallet,
+    chainId,
+    configuredChains,
+    defaultChain,
   ]);
 
   const isSafe = useMemo(() => {
-		return connectedWallet?.walletClientType === "safe" || false;
+    return connectedWallet?.walletClientType === "safe" || false;
   }, [connectedWallet]);
 
   const value = useMemo(() => ({ user, isSafe }), [user, isSafe]);
