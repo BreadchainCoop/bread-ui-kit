@@ -1,6 +1,8 @@
 "use client";
 
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import clsx from "clsx";
+import { useState } from "react";
 import { LINKS } from "../../constansts/links";
 import { App } from "../../interface/app";
 import { appsConfig } from "../../utils/app";
@@ -12,6 +14,13 @@ interface NavSolidarityAppsProps {
 	showTitle?: boolean;
 	showSelected?: boolean;
 	rearranged?: boolean;
+	/**
+	 * Render the section as a dropdown: the "Solidarity apps" title becomes a
+	 * toggle and the app list is collapsed by default, expanding vertically on
+	 * tap. Used in the mobile menu. When false (default) the list is always
+	 * shown (e.g. inside the desktop dropdown content).
+	 */
+	collapsible?: boolean;
 }
 
 const _apps = [
@@ -82,7 +91,9 @@ export const NavSolidarityApps = ({
 	showTitle,
 	showSelected,
 	rearranged,
+	collapsible = false,
 }: NavSolidarityAppsProps) => {
+	const [open, setOpen] = useState(false);
 	const apps = rearranged
 		? [..._apps].sort((a, b) => {
 				if (a.id === current) return -1;
@@ -94,10 +105,39 @@ export const NavSolidarityApps = ({
 
 	return (
 		<section className={className}>
-			{showTitle && (
-				<Body className="text-surface-grey mb-4">Solidarity apps</Body>
+			{collapsible ? (
+				<button
+					type="button"
+					onClick={() => setOpen((o) => !o)}
+					aria-expanded={open}
+					className="flex w-full items-center justify-between"
+				>
+					<Body className="text-surface-grey">Solidarity apps</Body>
+					<span
+						className={clsx(
+							"transition-transform duration-300",
+							open && "rotate-180",
+							appConfig.text,
+						)}
+					>
+						<Caret />
+					</span>
+				</button>
+			) : (
+				showTitle && (
+					<Body className="text-surface-grey mb-4">Solidarity apps</Body>
+				)
 			)}
-			<ul className="flex flex-col gap-2">
+			<ul
+				className={clsx(
+					"flex flex-col gap-2",
+					collapsible &&
+						clsx(
+							"overflow-hidden transition-all duration-300",
+							open ? "mt-4 max-h-96" : "max-h-0",
+						),
+				)}
+			>
 				{[...apps].map((app) => {
 					// const component = !app.comingSoon && app.webLink ? "a" :
 					const isLink =

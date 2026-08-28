@@ -6,6 +6,8 @@ import { ListIcon, XIcon } from "@phosphor-icons/react/dist/ssr";
 interface NavbarMenuProps {
 	textClassName: string;
 	mobileHeader: ReactNode;
+	/** Content pinned below the mobile header, above the links (e.g. account card). */
+	mobileTop?: ReactNode;
 	children: ReactNode;
 	footer?: ReactNode;
 }
@@ -13,6 +15,7 @@ interface NavbarMenuProps {
 export function NavbarMenu({
 	textClassName,
 	mobileHeader,
+	mobileTop,
 	children,
 	footer,
 }: NavbarMenuProps) {
@@ -50,6 +53,7 @@ export function NavbarMenu({
 						<XIcon size={32} />
 					</button>
 				</div>
+				{mobileTop && <div className="mb-6 md:hidden">{mobileTop}</div>}
 				<div onClick={() => toggleMenu(true)}>{children}</div>
 				{footer}
 			</div>

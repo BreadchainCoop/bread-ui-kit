@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@radix-ui/react-navigation-menu": "^1.2.14",
+    "blo": "^2.0.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.4.0"
   },
