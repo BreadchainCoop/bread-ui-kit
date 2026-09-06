@@ -29,7 +29,8 @@ export const LoginButtonPrivy = ({
 				? "bg-primary-blue"
 				: "bg-primary-jade";
 
-	const { login, ready, user: privyUser } = usePrivy();
+	const { login, connectWallet, ready, authenticated, user: privyUser } =
+		usePrivy();
 	const { wallets } = useWallets();
 
 	if (status === "CONNECTED") return null;
@@ -58,10 +59,14 @@ export const LoginButtonPrivy = ({
 		);
 	}
 
+	// Privy throws if login() is called while already authenticated - which
+	// is exactly this NOT_CONNECTED case when the wallet was disconnected
+	// from its own UI rather than via Privy logout. connectWallet() is the
+	// right prompt to reconnect one in that state.
 	return (
 		<div className="[&>*]:w-full">
 			<LiftedButton
-				onClick={login}
+				onClick={authenticated ? () => connectWallet() : login}
 				rightIcon={rightIcon}
 				className={`w-full ${className}`}
 			>
