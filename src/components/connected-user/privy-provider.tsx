@@ -44,6 +44,14 @@ export function ConnectedUserProviderPrivy({
       return { status: "NOT_CONNECTED" };
     }
 
+    // The wallet Privy last knew about is no longer in the connected list
+    // (e.g. the user disconnected it from the wallet's own UI rather than
+    // logging out of Privy) - there's nothing to switch a chain on, so this
+    // reads as disconnected, not as an unsupported chain.
+    if (!connectedWallet) {
+      return { status: "NOT_CONNECTED" };
+    }
+
     const address = accountAddress as Hex;
     const walletChainId = connectedWallet?.chainId;
     const parsedChainId = walletChainId
