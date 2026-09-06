@@ -29,7 +29,8 @@ export const LoginButtonPrivy = ({
 				? "bg-primary-blue"
 				: "bg-primary-jade";
 
-	const { login, ready } = usePrivy();
+	const { login, connectWallet, ready, authenticated, user: privyUser } =
+		usePrivy();
 	const { wallets } = useWallets();
 
 	if (status === "CONNECTED") return null;
@@ -37,7 +38,17 @@ export const LoginButtonPrivy = ({
 	if (status === "LOADING" || !ready) return <ButtonShell />;
 
 	if (status === "UNSUPPORTED_CHAIN") {
-		const activeWallet = wallets[0];
+		// Must match how ConnectedUserProviderPrivy resolves the active wallet
+		// (privyUser.wallet.address, not wallets[0]) — wallets[] can list more
+		// than the one actually connected, e.g. once an app links an external
+		// wallet alongside an embedded one, and wallets[0] isn't guaranteed to
+		// be either of those in a stable order.
+		const accountAddress = privyUser?.wallet?.address;
+		const activeWallet = accountAddress
+			? wallets.find(
+					(w) => w.address.toLowerCase() === accountAddress.toLowerCase(),
+				)
+			: undefined;
 
 		return (
 			<SwitchNetwork
@@ -48,10 +59,14 @@ export const LoginButtonPrivy = ({
 		);
 	}
 
+	// Privy throws if login() is called while already authenticated - which
+	// is exactly this NOT_CONNECTED case when the wallet was disconnected
+	// from its own UI rather than via Privy logout. connectWallet() is the
+	// right prompt to reconnect one in that state.
 	return (
 		<div className="[&>*]:w-full">
 			<LiftedButton
-				onClick={login}
+				onClick={authenticated ? () => connectWallet() : login}
 				rightIcon={rightIcon}
 				className={`w-full ${className}`}
 			>
@@ -66,7 +81,7 @@ function SwitchNetwork({
 	chainId,
 	className,
 }: {
-	activeWallet: ConnectedWallet;
+	activeWallet: ConnectedWallet | undefined;
 	chainId: number;
 	className?: string;
 }) {
