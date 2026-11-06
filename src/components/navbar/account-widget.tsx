@@ -21,7 +21,7 @@ import { Address } from "viem";
 import NavAccountWidgetItem from "./account-widget-item";
 import { FormattedDecimalNumber } from "../typography/formatted-dec-num";
 import { CopyButtonIcon } from "../buttons";
-import { useConnectedUser } from "../connected-user";
+import { useConnectedUser } from "../connected-user/context";
 
 export interface NavAccountDetailsProps {
 	userAddress: Address;

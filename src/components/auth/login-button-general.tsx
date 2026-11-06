@@ -6,7 +6,7 @@ import LiftedButton from "../LiftedButton/LiftedButton";
 import { ButtonShell } from "./button-shell";
 import { App } from "../../interface/app";
 
-interface LoginButtonProps {
+export interface LoginButtonProps {
   app: App;
   status: "CONNECTED" | "LOADING" | "UNSUPPORTED_CHAIN" | "NOT_CONNECTED";
   label?: string;

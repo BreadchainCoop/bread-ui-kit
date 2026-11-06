@@ -11,6 +11,10 @@
       "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
     },
+    "./privy": {
+      "types": "./dist/privy.d.mts",
+      "import": "./dist/privy.mjs"
+    },
     "./tailwind-preset": "./tailwind-preset.js",
     "./theme": "./dist/theme.css",
     "./fonts": "./dist/fonts/fonts.css",

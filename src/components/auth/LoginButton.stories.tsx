@@ -9,15 +9,17 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { erc20Abi } from "viem";
 
-import { LoginButton } from "./login-button";
+import { LoginButtonGeneral } from "./login-button-general";
 import { BreadUIKitProvider } from "../../context/lib";
 import type { App } from "../../interface/app";
 
 /**
- * `LoginButton` reads `authProvider` from `BreadUIKitProvider` and renders either the Privy
- * or the RainbowKit ("general") sign-in flow. These stories mount the **general** flow
- * (wagmi + RainbowKit + react-query) so all four `status` states render without external
- * credentials. The Privy flow renders the same shapes but needs a real Privy app id.
+ * `LoginButtonGeneral` (from `@breadcoop/ui`) is the RainbowKit sign-in flow;
+ * `LoginButtonPrivy` (from `@breadcoop/ui/privy`) is the Privy one. Import only the one your
+ * app uses so non-Privy apps never bundle Privy. The deprecated `LoginButton` picks one at
+ * runtime from `authProvider`. These stories mount the **general** flow (wagmi + RainbowKit +
+ * react-query) so all four `status` states render without external credentials. The Privy
+ * flow renders the same shapes but needs a real Privy app id.
  *
  * What each `status` renders:
  * - `NOT_CONNECTED` → the themed "Sign In" button
@@ -66,13 +68,13 @@ function Providers({ app, children }: { app: App; children: React.ReactNode }) {
   );
 }
 
-type StoryArgs = React.ComponentProps<typeof LoginButton> & {
+type StoryArgs = React.ComponentProps<typeof LoginButtonGeneral> & {
   showRightIcon?: boolean;
 };
 
 const meta: Meta<StoryArgs> = {
   title: "Components/Auth/LoginButton",
-  component: LoginButton,
+  component: LoginButtonGeneral,
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
@@ -104,7 +106,7 @@ const meta: Meta<StoryArgs> = {
   render: ({ showRightIcon, app, ...args }) => (
     <Providers app={app}>
       <div className="w-80">
-        <LoginButton
+        <LoginButtonGeneral
           {...args}
           app={app}
           rightIcon={showRightIcon ? <ArrowRight size={20} /> : undefined}
@@ -149,7 +151,7 @@ export const Connected: Story = {
   render: (args) => (
     <Providers app={args.app}>
       <div className="w-80 text-center">
-        <LoginButton {...args} />
+        <LoginButtonGeneral {...args} />
         <p className="text-caption text-surface-grey-2">
           (renders nothing when CONNECTED)
         </p>
@@ -168,7 +170,7 @@ export const AllApps: Story = {
           <p className="text-caption mb-2">app=&quot;{app}&quot;</p>
           <Providers app={app}>
             <div className="w-80">
-              <LoginButton
+              <LoginButtonGeneral
                 {...args}
                 app={app}
                 rightIcon={showRightIcon ? <ArrowRight size={20} /> : undefined}

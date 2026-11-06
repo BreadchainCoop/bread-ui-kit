@@ -5,18 +5,24 @@ import { type Hex } from "viem";
 import { useChains } from "wagmi";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { TConnectedUserState, TUserConnected } from ".";
+import { useBreadUIKitContext } from "../../context/lib";
+import { LoginButtonPrivy } from "../auth/login-button-privy";
 import { ConnectedUserContext } from "./context";
+import { ConnectedUserAuthContext, TConnectedUserAuth } from "./auth-context";
 
 interface IConnectedUserProviderPrivyProps {
   children: ReactNode;
-  chainId: number;
 }
 
+/**
+ * Wallet/user state for apps using Privy. Must be mounted inside Privy's
+ * `PrivyProvider` and `BreadUIKitProvider`.
+ */
 export function ConnectedUserProviderPrivy({
-  chainId,
   children,
 }: IConnectedUserProviderPrivyProps) {
-  const { ready, authenticated, user: privyUser } = usePrivy();
+  const { chainId } = useBreadUIKitContext();
+  const { ready, authenticated, user: privyUser, logout } = usePrivy();
   const { wallets } = useWallets();
   const configuredChains = useChains();
 
@@ -85,9 +91,23 @@ export function ConnectedUserProviderPrivy({
 
   const value = useMemo(() => ({ user, isSafe }), [user, isSafe]);
 
+  // Privy wallets don't resolve an ENS name in the Navbar.
+  const auth = useMemo<TConnectedUserAuth>(
+    () => ({
+      LoginButton: LoginButtonPrivy,
+      logout: () => {
+        logout();
+      },
+      resolveEns: false,
+    }),
+    [logout],
+  );
+
   return (
     <ConnectedUserContext.Provider value={value}>
-      {children}
+      <ConnectedUserAuthContext.Provider value={auth}>
+        {children}
+      </ConnectedUserAuthContext.Provider>
     </ConnectedUserContext.Provider>
   );
 }

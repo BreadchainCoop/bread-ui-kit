@@ -6,12 +6,11 @@ import { injected } from "wagmi/connectors";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import { PrivyProvider } from "@privy-io/react-auth";
 import { erc20Abi } from "viem";
 
 import { Navbar } from "./navbar";
 import { BreadUIKitProvider } from "../../context/lib";
-import { ConnectedUserProvider } from "../connected-user";
+import { ConnectedUserProviderGeneral } from "../connected-user";
 import { Body } from "../typography/Typography";
 import type { App } from "../../interface/app";
 import { MockWalletProviders } from "../../../.storybook/mock-wallet";
@@ -21,7 +20,8 @@ import { MockWalletProviders } from "../../../.storybook/mock-wallet";
  * (`children`), a mobile slide-in menu, and the account section.
  *
  * It is the most provider-heavy component in the kit. `AccountSection` reads wallet state
- * from wagmi **and** Privy plus `ConnectedUserProvider`/`BreadUIKitProvider`, so these
+ * and the login/logout flow from whichever `ConnectedUserProvider*` is mounted (here
+ * `ConnectedUserProviderGeneral`, so no Privy) plus `BreadUIKitProvider`, so these
  * stories mount the whole stack. With no wallet connected the account area shows the signed-in
  * **Sign In** button; the connected account widget (balance, ENS, network) needs a live
  * wallet and is out of scope for Storybook.
@@ -48,26 +48,20 @@ const tokenConfig = {
   },
 };
 
-// Placeholder Privy app id — AccountSection calls Privy hooks unconditionally, so the
-// provider must be mounted. With general auth selected, Privy stays dormant.
-const PRIVY_APP_ID = "clpispdty00ycl80fpueukbhl";
-
 function Providers({ app, children }: { app: App; children: React.ReactNode }) {
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <PrivyProvider appId={PRIVY_APP_ID}>
-          <RainbowKitProvider>
-            <BreadUIKitProvider
-              app={app}
-              chainId={gnosis.id}
-              authProvider="general"
-              tokenConfig={tokenConfig}
-            >
-              <ConnectedUserProvider>{children}</ConnectedUserProvider>
-            </BreadUIKitProvider>
-          </RainbowKitProvider>
-        </PrivyProvider>
+        <RainbowKitProvider>
+          <BreadUIKitProvider
+            app={app}
+            chainId={gnosis.id}
+            authProvider="general"
+            tokenConfig={tokenConfig}
+          >
+            <ConnectedUserProviderGeneral>{children}</ConnectedUserProviderGeneral>
+          </BreadUIKitProvider>
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );

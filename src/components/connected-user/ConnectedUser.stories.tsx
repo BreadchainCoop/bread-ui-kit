@@ -6,7 +6,8 @@ import { Body, Caption } from "../typography/Typography";
 import { withMockWallet, MOCK_ADDRESS } from "../../../.storybook/mock-wallet";
 
 /**
- * `ConnectedUserProvider` + `useConnectedUser` are non-visual infrastructure: the provider
+ * `ConnectedUserProviderGeneral` (or `ConnectedUserProviderPrivy` from `@breadcoop/ui/privy`)
+ * + `useConnectedUser` are non-visual infrastructure: the provider
  * supplies wallet/connection state and the hook reads it. They normally have no UI, so this
  * is a **debug inspector**, not a shipped component — it renders the live `useConnectedUser()`
  * value so you can see the state machine.

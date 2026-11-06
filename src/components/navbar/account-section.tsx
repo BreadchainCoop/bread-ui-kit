@@ -1,16 +1,12 @@
 "use client";
 
-import { useAccount, useEnsName } from "wagmi";
-import { usePrivy } from "@privy-io/react-auth";
+import { useEnsName } from "wagmi";
 import { App } from "../../interface/app";
-import { LoginButton } from "../auth";
-import { TUserConnected, useConnectedUser } from "../connected-user";
+import { useConnectedUser } from "../connected-user/context";
+import { useConnectedUserAuth } from "../connected-user/auth-context";
 import AccountMenu from "./account-menu";
 import { SignInIcon } from "@phosphor-icons/react/dist/ssr";
 import { NavAccountDetailsProps } from "./account-widget";
-import { useAuthProvider } from "../../context/lib";
-import { useMemo } from "react";
-import { type Address } from "viem";
 
 interface AccountSectionProps extends Pick<
   NavAccountDetailsProps,
@@ -25,39 +21,16 @@ const AccountSection = ({
   actionItems,
 }: AccountSectionProps) => {
   const { user } = useConnectedUser();
-  const authProvider = useAuthProvider();
+  const { LoginButton, resolveEns } = useConnectedUserAuth();
 
-  // Wagmi hooks (for general/RainbowKit)
-  const { address: wagmiAddress } = useAccount();
+  const address = "address" in user ? user.address : undefined;
   const wagmiEnsName = useEnsName({
-    address: wagmiAddress,
-    query: { enabled: Boolean(wagmiAddress) && authProvider === "general" },
+    address,
+    query: { enabled: Boolean(address) && resolveEns },
   });
-
-  // Privy hooks
-  const { ready: privyReady } = usePrivy();
-
-  // Determine which address and ENS to use
-  const { address, ensNameResult } = useMemo(() => {
-    if (authProvider === "privy") {
-      const connectedUser = user as TUserConnected;
-
-      return {
-        address: connectedUser?.address as Address | undefined,
-        ensNameResult: {
-          data: undefined,
-          isLoading: !privyReady,
-          isError: false,
-        },
-      };
-    }
-
-    // General/RainbowKit
-    return {
-      address: wagmiAddress,
-      ensNameResult: wagmiEnsName,
-    };
-  }, [authProvider, user, privyReady, wagmiAddress, wagmiEnsName]);
+  const ensNameResult = resolveEns
+    ? wagmiEnsName
+    : { data: undefined, isLoading: false, isError: false };
 
   if (user.status === "CONNECTED" && address) {
     return (
