@@ -12,11 +12,10 @@ import { mock } from "wagmi/connectors";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import { PrivyProvider } from "@privy-io/react-auth";
 import { erc20Abi } from "viem";
 
 import { BreadUIKitProvider } from "../src/context/lib";
-import { ConnectedUserProvider } from "../src/components/connected-user";
+import { ConnectedUserProviderGeneral } from "../src/components/connected-user";
 import type { App } from "../src/interface/app";
 
 /**
@@ -50,10 +49,6 @@ const wagmiConfig = createConfig({
 
 const queryClient = new QueryClient();
 
-// Placeholder Privy app id — AccountSection calls Privy hooks unconditionally, so the
-// provider must be mounted. With general auth selected, Privy stays dormant.
-const PRIVY_APP_ID = "clpispdty00ycl80fpueukbhl";
-
 const tokenConfig = {
   BREAD: { address: BREAD_ADDRESS, abi: erc20Abi },
 };
@@ -81,20 +76,18 @@ export function MockWalletProviders({
   return (
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <PrivyProvider appId={PRIVY_APP_ID}>
-          <RainbowKitProvider>
-            <AutoConnect>
-              <BreadUIKitProvider
-                app={app}
-                chainId={gnosis.id}
-                authProvider="general"
-                tokenConfig={tokenConfig}
-              >
-                <ConnectedUserProvider>{children}</ConnectedUserProvider>
-              </BreadUIKitProvider>
-            </AutoConnect>
-          </RainbowKitProvider>
-        </PrivyProvider>
+        <RainbowKitProvider>
+          <AutoConnect>
+            <BreadUIKitProvider
+              app={app}
+              chainId={gnosis.id}
+              authProvider="general"
+              tokenConfig={tokenConfig}
+            >
+              <ConnectedUserProviderGeneral>{children}</ConnectedUserProviderGeneral>
+            </BreadUIKitProvider>
+          </AutoConnect>
+        </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );

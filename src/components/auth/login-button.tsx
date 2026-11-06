@@ -7,6 +7,11 @@ import {
 import { LoginButtonGeneral } from "./login-button-general";
 import { useAuthProvider } from "../../context/lib";
 
+/**
+ * @deprecated Statically imports both variants, so every app bundles
+ * `@privy-io/react-auth`. Use `LoginButtonGeneral` from `@breadcoop/ui`, or
+ * `LoginButtonPrivy` from `@breadcoop/ui/privy`.
+ */
 export const LoginButton = ({
 	label = "Sign In",
 	...props

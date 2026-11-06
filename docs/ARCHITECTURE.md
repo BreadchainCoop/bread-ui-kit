@@ -9,17 +9,20 @@ build, the exports, or anything touching React Server Components. For day-to-day
 This is a **pure component library** — no app shell, no server, no routes. Everything is
 authored in `src/` and compiled into `dist/`, which is what npm publishes.
 
-The package exposes four things to consumers (see `exports` in `package.json`):
+The package exposes five things to consumers (see `exports` in `package.json`):
 
 | Import path                     | What it is                                            |
 | ------------------------------- | ----------------------------------------------------- |
 | `@breadcoop/ui`                 | The JS/TS API — components, hooks, utils, context     |
+| `@breadcoop/ui/privy`           | Privy variants (`LoginButtonPrivy`, `ConnectedUserProviderPrivy`) — kept out of the root so non-Privy apps don't bundle Privy |
 | `@breadcoop/ui/theme`           | `theme.css` — Tailwind v4 import + `@font-face` rules |
 | `@breadcoop/ui/tailwind-preset` | `tailwind-preset.js` — brand colors + font families   |
 | `@breadcoop/ui/fonts`           | `fonts.css` + bundled `.woff2` font files             |
 
-`src/index.ts` is the **single public barrel**. If it isn't exported there (directly or via
-a folder `index.ts`), consumers can't import it. Adding an export grows the public API;
+`src/index.ts` is the **main public barrel**; `src/privy.ts` is the Privy-only one. Nothing
+reachable from `src/index.ts` (other than the deprecated `LoginButton` /
+`ConnectedUserProvider` dispatchers) may import `@privy-io/react-auth`. If it isn't exported
+from one of them (directly or via a folder `index.ts`), consumers can't import it. Adding an export grows the public API;
 removing/renaming one is a breaking change.
 
 ## Build: ESM-only, unbundled (for RSC)

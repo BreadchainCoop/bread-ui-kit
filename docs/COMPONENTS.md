@@ -26,9 +26,14 @@ Most components and all hooks read app config from context. Wrap your app once a
   `tokenConfig` (the BREAD token `address` + `abi`), and `authProvider`
   (`"privy" | "general"`). App-aware components and `useBreadBalance` won't work without it.
   — `src/context/lib.tsx`
-- **`ConnectedUserProvider`** — provides wallet/user connection state to `useConnectedUser`;
-  picks the Privy or general-wallet implementation based on `authProvider`. Nest inside
-  `BreadUIKitProvider`. — `src/components/connected-user/provider.tsx`
+- **`ConnectedUserProviderGeneral`** (RainbowKit/wagmi apps) or **`ConnectedUserProviderPrivy`**
+  (from `@breadcoop/ui/privy`) — provides wallet/user connection state to `useConnectedUser`
+  and the login/logout flow the `Navbar` uses. Mount the one your app uses, nested inside
+  `BreadUIKitProvider`. Apps that never import from `@breadcoop/ui/privy` don't bundle
+  `@privy-io/react-auth`. — `src/components/connected-user/provider-general.tsx`,
+  `src/components/connected-user/privy-provider.tsx`
+- **`ConnectedUserProvider`** — _deprecated_: picks one of the above at runtime from
+  `authProvider`, so it always bundles Privy. — `src/components/connected-user/provider.tsx`
 
 ## Components
 
@@ -58,14 +63,17 @@ Most components and all hooks read app config from context. Wrap your app once a
   — `src/components/navbar/account-widget-item.tsx`
 - **`Footer`** — site footer with social links and solidarity-tool links.
   — `src/components/footer/footer.tsx`
-- **`LoginButton`** — sign-in button; renders the Privy or general-wallet variant based on
-  `authProvider` from context. — `src/components/auth/login-button.tsx`
+- **`LoginButtonGeneral`** — RainbowKit sign-in button. — `src/components/auth/login-button-general.tsx`
+- **`LoginButtonPrivy`** (from `@breadcoop/ui/privy`) — Privy sign-in button.
+  — `src/components/auth/login-button-privy.tsx`
+- **`LoginButton`** — _deprecated_: picks one of the above at runtime from `authProvider`, so
+  it always bundles Privy. — `src/components/auth/login-button.tsx`
 
 ## Providers & context
 
 - **`BreadUIKitProvider`** — see [Setup](#setup-required-first). — `src/context/lib.tsx`
-- **`ConnectedUserProvider`** — see [Setup](#setup-required-first).
-  — `src/components/connected-user/provider.tsx`
+- **`ConnectedUserProviderGeneral` / `ConnectedUserProviderPrivy`** (and the deprecated
+  `ConnectedUserProvider`) — see [Setup](#setup-required-first).
 - **`useConnectedUser()`** — returns the connection state machine: `TUserLoading` /
   `TUserNotConnected` / `TUserConnected` (`status` is `LOADING` / `NOT_CONNECTED` /
   `CONNECTED` / `UNSUPPORTED_CHAIN`). — `src/components/connected-user/context.ts`
